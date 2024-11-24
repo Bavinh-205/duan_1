@@ -236,20 +236,30 @@ h4{
     Deal Thơm 
     <a href="#" class="mt-10 text-decoration-none"><p class="color-black">Xem thêm</p></a>  
     </h4> 
-    <div class="container-fluid">    
-    <div class="row mx-4">  
-        <!-- Card 1 -->  
-        <div class="col-md-2 p-1">  
-    <div class="card border-0 text-center">  
-        <img src="view/img/product1.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">   
-        <div class="card-body">  
-            <h6 class="card-title">Salvatore Ferragamo</h6>  
-            <a class=" card-text color-black text-decoration-none" href="index.php?act=product-ct"><p class="card-text ">Salvatore Ferragamo Signorina Libera</p></a>
-            <p class="card-price color-red">1,980,000đ - 2,150,000₫</p>  
-            <p>1 Sizers</p>   
-        </div>  
-    </div>  
-</div>  
+    <div class="container-fluid">   
+    <div class="row mx-4">   
+    <?php
+    if (!empty($allProducts)):;?>
+                <?php foreach ($allProducts as $product): ?>
+
+                    <div class="col-md-2 p-1">
+                        <div class="card border-0 text-center">
+                            <!-- Thay ảnh động từ cơ sở dữ liệu -->
+                            <img src="view/uploads/user/<?php echo  $product['hinh_anh']; ?>" class="card-img-top">
+                            <div class="card-body">
+                                <h6 class="card-title"><?php echo $product['ma_san_pham']; ?></h6>
+                                <a class="card-text color-black text-decoration-none" href="index.php?act=product-ct&id=<?php echo $product['danh_muc_id']; ?>">
+                                    <p class="card-text"><?php echo $product['ten_san_pham']; ?></p>
+                                </a>
+                                <p class="card-price color-red"><?php echo number_format($product['gia_ban'], 0, ',', '.'); ?>₫</p>
+                                <p><?php echo $product['trang_thai']; ?> Sizes</p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Không có sản phẩm nào.</p>
+            <?php endif; ?>
 
         <!-- Card 2 -->  
         <div class="col-md-2 p-1">  

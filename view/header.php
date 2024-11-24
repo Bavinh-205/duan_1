@@ -233,6 +233,12 @@
     width: 100vw; /* Dropdown chiếm toàn bộ chiều rộng màn hình */
     left: 0; /* Đảm bảo căn trái dropdown */
 }
+.dropdown-menu {
+    position: relative; /* Đảm bảo z-index hoạt động */
+    z-index: 1000; /* Đặt z-index phù hợp */
+    color: black; /* Đảm bảo màu chữ là màu đen (hoặc có màu phù hợp với nền) */
+    font-weight: bold;
+}
 
 
 
@@ -267,25 +273,55 @@
                     <a class="nav-link color-black mx-2" href="">Nmagazine</a>
                     <span class="put-lines"></span>
                     </li>
-                    <li class="nav-item dropdown">
-                         <a style="z-index:" class="nav-link dropdown-toggle color-black" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                             <img src="view/img/icon-user.svg" alt="" style="width: 25px; height: auto; margin-right: 5px;">
-                                 Đăng nhập
-                        </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="loginDropdown">
-                                <h5 class="mb-2">Chào bạn,</h5>
-                                     <p class="mb-3">Đăng nhập để vào thế giới nước hoa Namperfume</p>
-                                         <div class="d-flex mb-3">
-                                            <button class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">
-                                                     <a class=" text-decoration-none color-black" href="index.php?act=login">Đăng nhập</a></button>
-                                                             <button class="btn btn-outline-secondary custom-btn flex-grow-1">Đăng ký</button>
-                                         </div>
-                                            <hr>
-                                                <h5 class="mb-2">Hoặc Đăng nhập với</h5>
-                                                     <button class="btn btn-outline-danger btn-social mb-2"><i class="bi bi-google"></i> Đăng Nhập Với Google</button>
-                                                        <button class="btn btn-outline-primary btn-social"><i class="bi bi-facebook"></i> Đăng Nhập Với Facebook</button>
-                            </div>
-                    </li>
+                   <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle color-black" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img src="view/img/icon-user.svg" alt="" style="width: 25px; height: auto; margin-right: 5px;">
+        <?php if (isset($_SESSION['user'])): ?>
+            <!-- Nếu đã đăng nhập, hiển thị email người dùng -->
+            Chào, <?php echo $_SESSION['user']['email']; ?>
+        <?php else: ?>
+            <!-- Nếu chưa đăng nhập, hiển thị "Đăng nhập" -->
+            Đăng nhập
+        <?php endif; ?>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right mx-5" aria-labelledby="loginDropdown">
+        <?php if (isset($_SESSION['user'])): ?>
+            <!-- Nếu đã đăng nhập, hiển thị thông tin người dùng và nút đăng xuất -->
+            <?php if ($_SESSION['user']['role'] == 'admin'): ?>
+                <h5 class="mb-2 user-info">Hi, Admin</h5>
+                <p class="mb-3">Bạn đã đăng nhập với quyền Admin vào Namperfume</p>
+                <div class="d-flex mb-3 my-4">
+                    <a href="admin/index.php" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng nhập vào admin</a>
+                </div>
+                <div class="d-flex mb-3">
+                    <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng xuất</a>
+                </div>
+            <?php else: ?>
+                <h5 class="mb-2 user-info">Hi, User</h5>
+                <p class="mb-3">Bạn đã đăng nhập với quyền User vào Namperfume</p>
+                <div class="d-flex mb-3">
+                    <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng xuất</a>
+                </div>
+            <?php endif; ?>
+        <?php else: ?>
+            <!-- Nếu chưa đăng nhập, hiển thị form đăng nhập và đăng ký -->
+            <h5 class="mb-2">Chào bạn,</h5>
+            <p class="mb-3">Đăng nhập để vào thế giới nước hoa Namperfume</p>
+            <div class="d-flex mb-3">
+                <button class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">
+                    <a class="text-decoration-none color-black" href="index.php?act=login">Đăng nhập</a>
+                </button>
+                <button class="btn btn-outline-secondary custom-btn flex-grow-1">Đăng ký</button>
+            </div>
+            <hr>
+            <h5 class="mb-2">Hoặc Đăng nhập với</h5>
+            <button class="btn btn-outline-danger btn-social mb-2"><i class="bi bi-google"></i> Đăng Nhập Với Google</button>
+            <button class="btn btn-outline-primary btn-social"><i class="bi bi-facebook"></i> Đăng Nhập Với Facebook</button>
+        <?php endif; ?>
+    </div>
+</li>
+
+
 
                     <li class="nav-item mr-1">
                       <a class="nav-link " href="#">
