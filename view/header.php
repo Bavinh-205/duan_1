@@ -5,14 +5,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <style> 
     html, body {
     overflow-x: hidden; /* Ngừng cuộn ngang */
     width: 100%;
     margin: 0;
     padding: 0;
-}    
+}   
+@media (max-width: 768px) {
+            .box {
+                background: lightcoral;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .box {
+                flex: 1 1 100%;
+            }
+        } 
         .color-white { color: white; }
         .color-black { color: black; }
         .color-red { color: red; }
@@ -256,23 +268,25 @@
                     <span class="put-lines"></span>
                     </li>
                     <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle color-black" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <img src="view/img/icon-user.svg" alt="" style="width: 25px; height: auto; margin-right: 5px;">
-                        Đăng nhập
-                    </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="loginDropdown">
-                            <h5>Chào bạn,</h5>
-                            <p>Đăng nhập đề vào thế giới nước hoa Namperfume</p>
-                            <div class="d-flex">
-                                <button class="btn btn-outline-secondary custom-btn flex-grow-1 mr-2">Đăng nhập</button>
-                                <button class="btn btn-outline-secondary custom-btn flex-grow-1">Đăng ký</button>
+                         <a style="z-index:" class="nav-link dropdown-toggle color-black" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             <img src="view/img/icon-user.svg" alt="" style="width: 25px; height: auto; margin-right: 5px;">
+                                 Đăng nhập
+                        </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="loginDropdown">
+                                <h5 class="mb-2">Chào bạn,</h5>
+                                     <p class="mb-3">Đăng nhập để vào thế giới nước hoa Namperfume</p>
+                                         <div class="d-flex mb-3">
+                                            <button class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">
+                                                     <a class=" text-decoration-none color-black" href="index.php?act=login">Đăng nhập</a></button>
+                                                             <button class="btn btn-outline-secondary custom-btn flex-grow-1">Đăng ký</button>
+                                         </div>
+                                            <hr>
+                                                <h5 class="mb-2">Hoặc Đăng nhập với</h5>
+                                                     <button class="btn btn-outline-danger btn-social mb-2"><i class="bi bi-google"></i> Đăng Nhập Với Google</button>
+                                                        <button class="btn btn-outline-primary btn-social"><i class="bi bi-facebook"></i> Đăng Nhập Với Facebook</button>
                             </div>
-                            <hr>
-                            <h5>Hoặc Đăng nhập với</h5>
-                            <button class="btn btn-outline-danger btn-social"><i class="bi bi-google"></i> Đăng Nhập Với Google</button>
-                            <button class="btn btn-outline-primary btn-social"><i class="bi bi-facebook"></i> Đăng Nhập Với Facebook</button>
-                        </div>
                     </li>
+
                     <li class="nav-item mr-1">
                       <a class="nav-link " href="#">
                         <img src="view/img/icon-favorite.svg" alt="">
@@ -294,7 +308,7 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link color-red"  href="index.php"><h5 class="color-red" style="margin-right:30px;">namperfume Favorites</h5></a></li>
                     <li class="nav-item">
-                        <a class="nav-link color-red" href="#"><p class="color-black" style="font-weight:bold;margin-right:30px;">Deal thơm</p></a>
+                        <a class="nav-link color-red" href="index.php?act=product"><p class="color-black" style="font-weight:bold;margin-right:30px;">Deal thơm</p></a>
                     </li>
                     <ul class="menu-main">
                             <li class="nav-item">
@@ -353,8 +367,4 @@
         </nav>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
-</html>
+    
