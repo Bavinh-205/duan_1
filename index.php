@@ -9,7 +9,15 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
         case 'product-ct':
             include 'view/product-ct.php';
             break;
-        
+        case 'product':
+            include 'view/product.php';
+            break;
+        case 'login':
+            include 'view/login.php';
+            break;
+        case 'cart':
+            include 'view/cart.php';
+            break;
         default:
             # code...
             break;

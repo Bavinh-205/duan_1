@@ -275,7 +275,7 @@
                 </div>
             </div>
             <div class="button-actions">
-                <button class="btn btn-buy btn-add-to-cart">Thêm vào giỏ hàng</button>
+                <button class="btn btn-buy btn-add-to-cart"><a class="text-decoration-none text-light" href="index.php?act=cart">Thêm Vào Giỏ Hàng</a></button>
                 <button class="btn btn-buy btn-buy-now">Mua ngay</button>
             </div>
         </div>
@@ -345,41 +345,41 @@
             <div class="star filled"></div>  
             <div class="star filled"></div>  
         </div>  
-        <div class="average">4.9</div>  
+        <div class="average">4.9⭐</div>  
         <div class="reviews">54 lượt đánh giá</div>  
     </div>  
     <div class="divider"></div>  
     <div class="percentage">  
         <div class="rate">  
-            <span class="number">5</span>  
+            <span class="number">5⭐</span>  
             <div class="bar">  
                 <div class="filled" style="width: 91%;"></div>  
             </div>  
             <span class="percent">91%</span>  
         </div>  
         <div class="rate">  
-            <span class="number">4</span>  
+            <span class="number">4⭐</span>  
             <div class="bar">  
                 <div class="filled" style="width: 9%;"></div>  
             </div>  
             <span class="percent">9%</span>  
         </div>  
         <div class="rate">  
-            <span class="number">3</span>  
+            <span class="number">3⭐</span>  
             <div class="bar">  
                 <div class="filled" style="width: 0%;"></div>  
             </div>  
             <span class="percent">0%</span>  
         </div>  
         <div class="rate">  
-            <span class="number">2</span>  
+            <span class="number">2⭐</span>  
             <div class="bar">  
                 <div class="filled" style="width: 0%;"></div>  
             </div>  
             <span class="percent">0%</span>  
         </div>  
         <div class="rate">  
-            <span class="number">1</span>  
+            <span class="number">1⭐</span>  
             <div class="bar">  
                 <div class="filled" style="width: 0%;"></div>  
             </div>  

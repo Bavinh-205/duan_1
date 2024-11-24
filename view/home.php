@@ -41,12 +41,10 @@ h4{
 }  
 
 .color-red {  
-    color: red;  
-    font-weight: bold; /* Makes the price stand out */  
+    color: red;   
 }  
 .colo-black{
     color: black;
-    font-weight:bold;
 }
 
 /* Ensuring titles and prices are centered */  
@@ -151,7 +149,8 @@ h4{
 }  
 
 .banner-container img {  
-    width: 100%; /* Đặt chiều rộng của ảnh bằng 100% để phù hợp với liên kết */  
+    width: 100%; 
+    height: 100%;/* Đặt chiều rộng của ảnh bằng 100% để phù hợp với liên kết */  
 } 
 .icon-container {  
     text-align: center;  
@@ -193,7 +192,7 @@ h4{
     <br>  
     <h4 class="d-flex justify-content-between align-items-center mx-4" style="text-transform:none;font-weight:500">  
         Thương hiệu  
-        <a href="#" class="mt-10"><p class="color-black">Xem thêm</p></a>  
+        <a href="#" class="mt-10 text-decoration-none"><p class="color-black">Xem thêm</p></a>  
     </h4>   
     <div class="row mt-4 mx-4">  
         <div class="col-md-6">  
@@ -235,7 +234,7 @@ h4{
     <br>
     <h4 class="d-flex justify-content-between align-items-center mx-4" style="font-weight:regular">  
     Deal Thơm 
-    <a href="#" class="mt-10"><p class="color-black">Xem thêm</p></a>  
+    <a href="#" class="mt-10 text-decoration-none"><p class="color-black">Xem thêm</p></a>  
     </h4> 
     <div class="container-fluid">    
     <div class="row mx-4">  
@@ -245,7 +244,7 @@ h4{
         <img src="view/img/product1.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">   
         <div class="card-body">  
             <h6 class="card-title">Salvatore Ferragamo</h6>  
-            <a class="color-black" href="index.php?act=product-ct"><p class="card-text">Salvatore Ferragamo Signorina Libera</p></a>
+            <a class=" card-text color-black text-decoration-none" href="index.php?act=product-ct"><p class="card-text ">Salvatore Ferragamo Signorina Libera</p></a>
             <p class="card-price color-red">1,980,000đ - 2,150,000₫</p>  
             <p>1 Sizers</p>   
         </div>  
@@ -316,7 +315,7 @@ h4{
     <br>
     <h4 class="d-flex justify-content-between align-items-center mx-4" style="font-weight:regular">  
     New Arrivals
-    <a href="#" class="mt-10"><p class="color-black">Xem thêm</p></a>  
+    <a href="#" class="mt-10 text-decoration-none"><p class="color-black">Xem thêm</p></a>  
     </h4> 
     <div class="container-fluid">    
     <div class="row mx-2">  
@@ -395,7 +394,7 @@ h4{
 <br>
 <h4 class="d-flex justify-content-between align-items-center mx-4" style="font-weight:regular">  
     Bestellers
-    <a href="#" class="mt-10"><p class="color-black">Xem thêm</p></a>  
+    <a href="#" class="mt-10 text-decoration-none"><p class="color-black">Xem thêm</p></a>  
     </h4>
     <div class="container-fluid">    
     <div class="row mx-6">  
