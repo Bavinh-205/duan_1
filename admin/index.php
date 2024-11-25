@@ -2,10 +2,6 @@
 session_start();
 // Require file Common
 
-if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
-  header("Location: login.php");
-  exit();
-}
 require_once '../commons/env.php'; // Khai báo biến môi trường
 require_once '../commons/ConnectDatabase.php'; // Hàm hỗ trợ
 
