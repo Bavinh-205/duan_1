@@ -284,14 +284,14 @@
             Đăng nhập
         <?php endif; ?>
     </a>
-    <div class="dropdown-menu dropdown-menu-right mx-5" aria-labelledby="loginDropdown">
-        <?php if (isset($_SESSION['user'])): ?>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="loginDropdown">
+        <?php var_dump($_SESSION['user']); if (isset($_SESSION['user'])): ?>
             <!-- Nếu đã đăng nhập, hiển thị thông tin người dùng và nút đăng xuất -->
             <?php if ($_SESSION['user']['role'] == 'admin'): ?>
                 <h5 class="mb-2 user-info">Hi, Admin</h5>
                 <p class="mb-3">Bạn đã đăng nhập với quyền Admin vào Namperfume</p>
-                <div class="d-flex mb-3 my-4">
-                    <a href="admin/index.php" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng nhập vào admin</a>
+                <div class="d-flex mb-3">
+                    <a href="admin/index.php" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng nhập vào Admin</a>
                 </div>
                 <div class="d-flex mb-3">
                     <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng xuất</a>
@@ -311,7 +311,9 @@
                 <button class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">
                     <a class="text-decoration-none color-black" href="index.php?act=login">Đăng nhập</a>
                 </button>
-                <button class="btn btn-outline-secondary custom-btn flex-grow-1">Đăng ký</button>
+                <button class="btn btn-outline-secondary custom-btn flex-grow-1">
+                    <a class="text-decoration-none text-dark" href="index.php?act=regist">Đăng ký</a>
+                </button>
             </div>
             <hr>
             <h5 class="mb-2">Hoặc Đăng nhập với</h5>

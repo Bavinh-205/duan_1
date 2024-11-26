@@ -232,23 +232,39 @@ h4{
         </div>  
     </div>  
     <br>
-    <h4 class="d-flex justify-content-between align-items-center mx-4" style="font-weight:regular">  
-    Deal Thơm 
-    <a href="#" class="mt-10 text-decoration-none"><p class="color-black">Xem thêm</p></a>  
-    </h4> 
     <div class="container-fluid">   
     <div class="row mx-4">   
-    <?php
-    if (!empty($allProducts)):;?>
-                <?php foreach ($allProducts as $product): ?>
-
+    <?php 
+// Kết nối cơ sở dữ liệu và lấy tất cả sản phẩm
+$allProducts = $product->getAllProduct(); 
+$groupTitles = [
+    "Deal Thơm",
+    "New Arrivels",
+    "Best Sales",
+];
+if (!empty($allProducts)): 
+    $counter = 0; // Khởi tạo biến counter để đếm số sản phẩm
+    $groupIndex = 0; // Biến để theo dõi nhóm hiện tại
+    foreach ($allProducts as $index => $product):
+        // Mỗi 6 sản phẩm, in ra một tiêu đề nhóm khác nhau
+        if ($counter % 6 == 0 && isset($groupTitles[$groupIndex])) {
+            // Tiêu đề nhóm, sử dụng flexbox để chia layout trái và phải
+            echo '<div class="d-flex justify-content-between align-items-center">';
+            echo '<h3 class="group-title mt-4">' . $groupTitles[$groupIndex] . '</h3>';
+            echo '<a class="text-decoration-none text-dark" href="index.php?act=product ">Xem tất cả</a>';
+            echo '</div>';
+            // Tăng chỉ số nhóm
+            $groupIndex++;
+        }
+        $counter++;
+?>
                     <div class="col-md-2 p-1">
                         <div class="card border-0 text-center">
                             <!-- Thay ảnh động từ cơ sở dữ liệu -->
-                            <img src="view/uploads/user/<?php echo  $product['hinh_anh']; ?>" class="card-img-top">
+                            <img src="http://localhost/duan_1/<?php echo $product['hinh_anh'];  ?>" class="card-img-top" alt="">
                             <div class="card-body">
                                 <h6 class="card-title"><?php echo $product['ma_san_pham']; ?></h6>
-                                <a class="card-text color-black text-decoration-none" href="index.php?act=product-ct&id=<?php echo $product['danh_muc_id']; ?>">
+                                <a class="card-text color-black text-decoration-none" href="index.php?act=product-ct&id=<?php echo $product['id'];?>">
                                     <p class="card-text"><?php echo $product['ten_san_pham']; ?></p>
                                 </a>
                                 <p class="card-price color-red"><?php echo number_format($product['gia_ban'], 0, ',', '.'); ?>₫</p>
@@ -261,227 +277,7 @@ h4{
                 <p>Không có sản phẩm nào.</p>
             <?php endif; ?>
 
-        <!-- Card 2 -->  
-        <div class="col-md-2 p-1">  
-    <div class="card border-0 text-center hover-card">  
-        <img src="view/img/product2.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-        <div class="card-body">  
-            <h6 class="card-title">Moschino</h6>  
-            <p class="card-text">Moschino Toy 2 Bubble Gum</p>  
-            <p class="card-price color-red">1,180,000đ - 1,850,000₫</p>  
-            <p>1 Sizes</p>  
-            <input type="button" value="Xem Nhanh" class="quick-view" /> <!-- Nút "Xem Nhanh" -->  
-        </div>  
-    </div>  
-</div>
-
-        <!-- Card 3 -->  
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product3.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Marc Jacobs</h6>  
-                    <p class="card-text">Marc Jacobs Daisy Ever So Fresh</p>  
-                    <p class="card-price color-red">1,580,000đ - 2,730,000₫</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product4.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Issey Miyake</h6>  
-                    <span class="card-text">Issey Miyake L’Eau d’Issey Pour Homme Eau & Cèdre</span>  
-                    <p class="card-price color-red">1,870,000đ - 2,560,000₫</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>  
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product5.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Issey Miyake</h6>  
-                    <p class="card-text">Issey Miyake L'eau D'Issey for Women</p>  
-                    <p class="card-price color-red">1,880,000đ - 2,480,000₫</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product7.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Gucci</h6>  
-                    <p class="card-text">Gucci Guilty Black Pour Homme</p>  
-                    <p class="card-price color-red">2,200,000đ - 2,680,000₫</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>
-        
-    </div>  
-    <br>
-    <h4 class="d-flex justify-content-between align-items-center mx-4" style="font-weight:regular">  
-    New Arrivals
-    <a href="#" class="mt-10 text-decoration-none"><p class="color-black">Xem thêm</p></a>  
-    </h4> 
-    <div class="container-fluid">    
-    <div class="row mx-2">  
-        <!-- Card 1 -->  
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product8.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title  ">Salvatore Ferragamo</h6>  
-                    <p class="card-text">Salvatore Ferragamo Red Leather For Men</p>  
-                    <p class="card-price color-red ">1,950,000đ</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>  
-
-        <!-- Card 2 -->  
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product9.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Jean Paul Gaultier</h6>  
-                    <p class="card-text">Jean Paul Gaultier Scandal Absolu Pour Homme</p>  
-                    <p class="card-price color-red">3,600,000đ</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>  
-
-        <!-- Card 3 -->  
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product10.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Jean Paul Gaultier</h6>  
-                    <p class="card-text">Jean Paul Gaultier Scandal Absolu Pour Femme</p>  
-                    <p class="card-price color-red">3,880,000đ</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product11.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Hugo Boss</h6>  
-                    <span class="card-text">Hugo Boss Bottled Elixir</span>  
-                    <p class="card-price color-red">2,880,000đ</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>  
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product12.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Jean Paul Gaultier</h6>  
-                    <p class="card-text">Jean Paul Gaultier Le Beau Paradise Garden</p>  
-                    <p class="card-price color-red">2,590,000đ - 3,380,000₫</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product14.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Gucci</h6>  
-                    <p class="card-text">Gucci Flora Gorgeous Magnolia</p>  
-                    <p class="card-price color-red">1,880,000đ - 2,480,000₫</p>
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>
-    </div>
-<br>
-<h4 class="d-flex justify-content-between align-items-center mx-4" style="font-weight:regular">  
-    Bestellers
-    <a href="#" class="mt-10 text-decoration-none"><p class="color-black">Xem thêm</p></a>  
-    </h4>
-    <div class="container-fluid">    
-    <div class="row mx-6">  
-        <!-- Card 1 -->  
-        <div class="col-md-2 p-1">  
-    <div class="card border-0 text-center">  
-        <img src="view/img/product1.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">   
-        <div class="card-body">  
-            <h6 class="card-title">Salvatore Ferragamo</h6>  
-            <p class="card-text">Salvatore Ferragamo Signorina Libera</p>  
-            <p class="card-price color-red">1,980,000đ - 2,150,000₫</p>  
-            <p>1 Sizers</p>   
-        </div>  
-    </div>  
-</div>  
-
-        <!-- Card 2 -->  
-        <div class="col-md-2 p-1">  
-    <div class="card border-0 text-center hover-card">  
-        <img src="view/img/product2.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-        <div class="card-body">  
-            <h6 class="card-title">Moschino</h6>  
-            <p class="card-text">Moschino Toy 2 Bubble Gum</p>  
-            <p class="card-price color-red">1,180,000đ - 1,850,000₫</p>  
-            <p>1 Sizes</p>  
-            <input type="button" value="Xem Nhanh" class="quick-view" /> <!-- Nút "Xem Nhanh" -->  
-        </div>  
-    </div>  
-</div>
-
-        <!-- Card 3 -->  
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product3.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Marc Jacobs</h6>  
-                    <p class="card-text">Marc Jacobs Daisy Ever So Fresh</p>  
-                    <p class="card-price color-red">1,580,000đ - 2,730,000₫</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product4.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Issey Miyake</h6>  
-                    <span class="card-text">Issey Miyake L’Eau d’Issey Pour Homme Eau & Cèdre</span>  
-                    <p class="card-price color-red">1,870,000đ - 2,560,000₫</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>  
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product5.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Issey Miyake</h6>  
-                    <p class="card-text">Issey Miyake L'eau D'Issey for Women</p>  
-                    <p class="card-price color-red">1,880,000đ - 2,480,000₫</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>
-        <div class="col-md-2 p-1">  
-            <div class="card border-0 text-center">  
-                <img src="view/img/product7.webp" class="card-img-top" alt="Salvatore Ferragamo Signorina Libera">  
-                <div class="card-body">  
-                    <h6 class="card-title">Gucci</h6>  
-                    <p class="card-text">Gucci Guilty Black Pour Homme</p>  
-                    <p class="card-price color-red">2,200,000đ - 2,680,000₫</p>  
-                    <p>1 Sizers</p>  
-                </div>  
-            </div>  
-        </div>
-        
-    </div>  
+      
     <br>
     <div class="banner-container">  
     <a href=""><img src="view/img/banner-nu.webp" alt=""></a>  

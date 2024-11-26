@@ -22,15 +22,15 @@
         <div class="col-md-8 my-2">
         <div class="row">
     <?php if (!empty($allProducts)): ?>
-        <?php foreach ($allProducts as $product): var_dump($product['hinh_anh']); ?>
+        <?php foreach ($allProducts as $product): ?>
             <div class="col-md-3 p-1">
                 <div class="card border-0 text-center">
                     <!-- Hiển thị ảnh sản phẩm -->
-                    <img src="uploads/user/<?php  echo $product['hinh_anh'];  ?>" class="card-img-top" >
+                    <img src="http://localhost/duan_1/<?php echo $product['hinh_anh'];?>" class="card-img-top" >
 
                     <div class="card-body">
                         <h6 class="card-title"><?php echo $product['ma_san_pham']; ?></h6>
-                        <a class="card-text color-black" href="index.php?act=product-ct&id=<?php echo $product['id']; ?>">
+                        <a class="card-text color-black text-decoration-none" href="index.php?act=product-ct&id=<?php echo $product['id']; ?>">
                             <p class="card-text"><?php echo $product['ten_san_pham']; ?></p>
                         </a>
                         <p class="card-price color-red">

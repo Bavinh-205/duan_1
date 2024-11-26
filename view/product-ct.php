@@ -2,7 +2,6 @@
   .product-title {
             font-size: 24px;
             font-weight: bold;
-            margin-left:390px; 
         }
 
         .rating {
@@ -225,27 +224,24 @@
     </style>
     <p style="margin-left:80px;">Trang Chủ | Nước Hoa Nữ | Salvatore Ferragamo Signorina Libera</p>
     <div class="container my-4">
-        <div class="product-title">Salvatore Ferragamo Signorina Libera</div>
+        <?php if($productDetail):?>
+       
         <div class="row mt-4">
             <!-- Hình ảnh sản phẩm -->
-            <div class="col-md-6">
-                <img style="width:390px;height:390px" src="view/img/product1.webp" alt="Salvatore Ferragamo Signorina Libera" class="img-fluid">
-                <div class="product-images">
-                    <img style="width:100px;height:100px" src="view/img/product-ct-1.webp" alt="" class="img-product">
-                    <img style="width:100px;height:100px" src="view/img/product-ct-2.webp" alt="" class="img-product">
-                    <img style="width:100px;height:100px" src="view/img/product-ct-3.webp" alt="" class="img-product">
-                </div>
+            <div class="col-md-6 mt-">
+            <img style="width:390px;height:390px" src="http://localhost/duan_1/<?php echo $productDetail['hinh_anh']; ?>" alt="Salvatore Ferragamo Signorina Libera" class="img-fluid">
         </div>
 
 
             <!-- Thông tin sản phẩm -->
             <div class="col-md-6 my-2">
                 <div>
+                     <div class="product-title mb-3"><?php echo $productDetail['ten_san_pham']; ?>  </div>
                     <span class="rating">⭐⭐⭐⭐☆</span> <span>(54 đánh giá)</span>
                 </div>
-                <p><strong>Thương hiệu:</strong> Salvatore Ferragamo</p>
-                <p><strong>Loại sản phẩm:</strong> Eau de Parfum 100ml</p>
-                <p><strong>Tình trạng:</strong> Sản phẩm mới</p>
+                <p><strong>Thương hiệu:</strong> <?php echo $productDetail['danh_muc_id']; ?></p>
+                <p><strong>Hàng về ngày:</strong> <?php echo $productDetail['ngay_nhap']; ?></p>
+                <p><strong>Giá Bán:</strong> <?php echo number_format($productDetail['gia_ban'], 0, ',', '.'); ?>đ</p>
 
                 <h5 class="mt-3">Standard Size:</h5>
                     <div class="btn-size-group">
@@ -264,7 +260,7 @@
             <div class="deal-info">
                 <p>DEAL THƠM:</p>
                 <div class="my-2 mx-2">
-                    <span class="price">1,935,000đ</span>
+                    <span class="price"><?php echo number_format($productDetail['gia_ban'],0,',','.'); ?></span>
                 </div>
                 <div class="discount mx-2">
                     <hr>
@@ -272,10 +268,18 @@
 <p style="white-space: nowrap;">
   Nhập mã: <strong>DEALTHOM10</strong>
 </p>
+<p style="white-space: nowrap;">
+Chỉ còn <strong> <?php $discountedPrice = $productDetail['gia_ban'] * 0.9;
+ echo number_format($discountedPrice, 0, ',', '.') . 'đ'; 
+?></strong>
                 </div>
             </div>
             <div class="button-actions">
+                <form action="index.phpact=cart" method="post">
+                <input type="hidden" name="productId" value="MZN001">
+                <input type="number" name="quantity" value="1">
                 <button class="btn btn-buy btn-add-to-cart"><a class="text-decoration-none text-light" href="index.php?act=cart">Thêm Vào Giỏ Hàng</a></button>
+                </form>
                 <button class="btn btn-buy btn-buy-now">Mua ngay</button>
             </div>
         </div>
@@ -285,9 +289,10 @@
     <h4>Chi tiết sản phẩm</h4>
     <hr>
     <div class="product-details">
-  <p>Mã hàng <span>110100204068</span></p>
-  <p>Thương Hiệu <span class="text-primary">Salvatore Ferragamo</span></p>
-  <p>Xuất Xứ <span class="text-danger">Italia</span></p>
+  <p>Mã hàng <span><?php echo $productDetail['ma_san_pham'] ; ?></span></p>
+  <p>Tên Sản Phẩm<span><?php echo $productDetail['ten_san_pham'] ; ?></span></p>
+  <p>SỐ LƯỢNG <span class="text-primary"><?php echo $productDetail['so_luong'];?></span></p>
+  <p>Mô tả <span class="text-danger"><?php echo $productDetail['mo_ta'];?></span></p>
   <p>Nhóm hương <span>
   Hương cam bergamot, Ambroxan, Quả lê</span></p>
   <p>Phong cách <span>Nhẹ nhàng, Nữ tính, Thanh lịch</span></p>
@@ -319,9 +324,86 @@
     </p>
 </div>
 </div>
+<?php else: ?>
+    <p>Sản Phẩm không tồn tại</p>
+<?php endif; ?>
 <div class="container-fluid mt-4">
     <h4>Sản Phẩm Liên Quan</h4>
+    <div class="row">
+        <!-- Sản phẩm 1 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 1</h5>
+                    <p class="card-text">₫1,500,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 2 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 2</h5>
+                    <p class="card-text">₫1,600,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 3 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 3</h5>
+                    <p class="card-text">₫1,700,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 4 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 4</h5>
+                    <p class="card-text">₫1,800,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 5 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 5</h5>
+                    <p class="card-text">₫1,900,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 6 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 6</h5>
+                    <p class="card-text">₫2,000,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 <div class="container-fluid mt-4">
     <h4>Bình Luận</h4>
     <hr>
@@ -330,7 +412,8 @@
     <p>Hỏi: <span>có mẫu thử ko shop ơi ? nhìn chai đẹp quá ạ</span></p>
     <p>Đáp: <span class="text-primary">Chào bạn nhé, Hiện tại hệ thống namperfume chưa có mẫu thử của sản phẩm Zaharoff Signature Seraphim Blue bạn nè</span></p>
      <p>Hỏi:<span">mình muốn mua chai nắp màu cam như ảnh luôn đc ko shop chứ của mình màu trắng nhìn đơn giản quá à</span></p>
-     <p>Xem Thêm</p>
+     <p>Xem Thêm</p> <br>
+     <a class="text-decoration-none text-danger" href="index.php?act=login">Bạn cần Đăng Nhập để được bình luận</a>
     </div>
 </div>
 <div class="container-fluid mt-4">
