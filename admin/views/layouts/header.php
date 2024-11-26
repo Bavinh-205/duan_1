@@ -51,7 +51,6 @@
                             <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">NamPerfume</span>
-                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo htmlspecialchars($_SESSION['ten_nguoi_dung']); ?></span>
                             </span>
                         </span>
                     </button>
