@@ -246,10 +246,10 @@
                 <h5 class="mt-3">Standard Size:</h5>
                     <div class="btn-size-group">
                         <button class="btn btn-size active">Eau de Parfum 100ml</button>
-                        <button class="btn btn-size">Eau de Parfum 30ml</button>
+                        <button class="btn btn-size active">Eau de Parfum 30ml</button>
                     </div>
                 <h5 class="mt-3">Mini Size:</h5>
-                <button class="btn btn-size">Eau de Parfum 5ml</button>
+                <button class="btn btn-size btn-Secondary active">Eau de Parfum 5ml</button>
             </div>
         </div>
 
@@ -275,12 +275,13 @@ Chỉ còn <strong> <?php $discountedPrice = $productDetail['gia_ban'] * 0.9;
                 </div>
             </div>
             <div class="button-actions">
-                <form action="index.phpact=cart" method="post">
-                <input type="hidden" name="productId" value="MZN001">
-                <input type="number" name="quantity" value="1">
-                <button class="btn btn-buy btn-add-to-cart"><a class="text-decoration-none text-light" href="index.php?act=cart">Thêm Vào Giỏ Hàng</a></button>
-                </form>
-                <button class="btn btn-buy btn-buy-now">Mua ngay</button>
+            <?php foreach ($productDetail as $product): ?>
+    <form action="index.php?act=cart" method="post">
+        <input type="hidden" name="ma_san_pham" value="<?php $productDetail['ma_san_pham'] ; ?>"> <!-- Mã sản phẩm tự động -->
+        <input type="number" name="so_luong" value="1" min="1">
+        <button type="submit" name="add_to_cart" class="btn btn-buy btn-add-to-cart">Thêm Vào Giỏ Hàng</button>
+    </form>
+<?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -472,3 +473,14 @@ Chỉ còn <strong> <?php $discountedPrice = $productDetail['gia_ban'] * 0.9;
 </div>
 </div>
 </div>
+<script>
+    document.querySelectorAll('.btn-size').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Xóa class 'active' khỏi tất cả các nút
+        document.querySelectorAll('.btn-size').forEach(b => b.classList.remove('active'));
+        
+        // Thêm class 'active' cho nút được nhấn
+        this.classList.add('active');
+    });
+});
+</script>

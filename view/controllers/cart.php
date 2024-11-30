@@ -1,107 +1,75 @@
 <?php
-// Chỉ khởi tạo session nếu cần thiết
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+class Cart {
+    public $conn;
 
-require_once 'products.php';
+    public function __construct() {
+        $this->conn = connectDB(); // Kết nối cơ sở dữ liệu
+    }
 
-// Khởi tạo giỏ hàng nếu chưa tồn tại
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
-}
+    // Thêm sản phẩm vào giỏ hàng cho người đã đăng nhập
+    public function addProductToCart($ma_san_pham, $email, $so_luong) {
+        // Lấy thông tin sản phẩm từ cơ sở dữ liệu
+        $sqlProduct = "SELECT ten_san_pham, gia_ban, hinh_anh, danh_muc_id FROM san_pham WHERE ma_san_pham = :ma_san_pham";
+$stmtProduct = $this->conn->prepare($sqlProduct);
+$stmtProduct->bindParam(':ma_san_pham', $ma_san_pham);
+$stmtProduct->execute();
+$product = $stmtProduct->fetch(PDO::FETCH_ASSOC);
 
-// Hàm thêm sản phẩm vào giỏ hàng
-function addToCart($productId, $products, $quantity = 1) {
-    if (isset($_SESSION['cart'][$productId])) {
-        $_SESSION['cart'][$productId]['quantity'] += $quantity;
-    } else {
-        if (isset($products[$productId])) {
-            $product = $products[$productId];
-            $_SESSION['cart'][$productId] = [
-                'name' => $product['name'],
-                'price' => $product['price'],
-                'image' => $product['image'],
-                'quantity' => $quantity,
-            ];
+// Debug thông tin sản phẩm
+var_dump($product); // In ra thông tin sản phẩm để kiểm tra
+        
+        if ($product) {
+            // Kiểm tra xem tên thương hiệu có hợp lệ không
+            if (empty($product['danh_muc_id'])) {
+                echo "Sản phẩm này không có tên thương hiệu hợp lệ, không thể thêm vào giỏ hàng!";
+                return;
+            }
+
+            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+            $sql = "SELECT * FROM gio_hangs WHERE ma_san_pham = :ma_san_pham AND email = :email";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':ma_san_pham', $ma_san_pham);
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                // Cập nhật số lượng nếu sản phẩm đã có trong giỏ
+                $sqlUpdate = "UPDATE gio_hangs SET so_luong = so_luong + :so_luong WHERE ma_san_pham = :ma_san_pham AND email = :email";
+                $stmtUpdate = $this->conn->prepare($sqlUpdate);
+                $stmtUpdate->bindParam(':ma_san_pham', $ma_san_pham);
+                $stmtUpdate->bindParam(':email', $email);
+                $stmtUpdate->bindParam(':so_luong', $so_luong);
+                $stmtUpdate->execute();
+            } else {
+                // Thêm sản phẩm mới vào giỏ hàng
+                $sqlInsert = "INSERT INTO gio_hangs (ma_san_pham, email, so_luong, ten_san_pham, gia_ban, hinh_anh, danh_muc_id) 
+                             VALUES (:ma_san_pham, :email, :so_luong, :ten_san_pham, :gia_ban, :hinh_anh, :danh_muc_id)";
+                $stmtInsert = $this->conn->prepare($sqlInsert);
+                $stmtInsert->bindParam(':ma_san_pham', $ma_san_pham);
+                $stmtInsert->bindParam(':email', $email);
+                $stmtInsert->bindParam(':so_luong', $so_luong);
+                $stmtInsert->bindParam(':ten_san_pham', $product['ten_san_pham']);
+                $stmtInsert->bindParam(':gia_ban', $product['gia_ban']);
+                $stmtInsert->bindParam(':hinh_anh', $product['hinh_anh']);
+                $stmtInsert->bindParam(':danh_muc_id', $product['danh_muc_id']);  // Truyền tên thương hiệu vào
+                $stmtInsert->execute();
+            }
+            return "Sản phẩm đã được thêm vào giỏ hàng!";
+        } else {
+            echo "Sản phẩm không tồn tại!";
         }
     }
 
-    // In ra giỏ hàng sau khi thêm sản phẩm
-    echo '<pre>';
-    print_r($_SESSION['cart']);
-    echo '</pre>';
+    // Lấy sản phẩm trong giỏ hàng của người dùng
+    public function getCartItems($email) {
+        $sql = "SELECT * FROM gio_hangs WHERE email = :email";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);  // Lấy tất cả các sản phẩm trong giỏ hàng
+    }
 }
 
 
 
-// Ví dụ thêm sản phẩm (giả sử bạn gửi ID sản phẩm qua form POST)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['productId'])) {
-    $productId = $_POST['productId'];
-    $quantity = $_POST['quantity'] ?? 1;
-
-    // Danh sách sản phẩm có sẵn
-    $products = [
-        'MZN001' => [
-            'name' => 'Nước Hoa Nữ',
-            'price' => 900000,
-            'image' => 'uploads/user/6741fac5e8c48_product14.webp',
-            'danh_muc' => 'Nike',
-        ],
-        'PM002' => [
-            'name' => 'Puma Ultra 1.1',
-            'price' => 2500000,
-            'image' => 'uploads/user/6741fb756f8b0_product8.webp',
-            'danh_muc' => 'Nike',
-        ],
-        'AD001' => [
-            'name' => 'Adidas X18.1',
-            'price' => 2500000,
-            'image' => 'uploads/user/6741fb8b779fd_product13.webp',
-            'danh_muc' => 'Nike',
-        ],
-        'KMT001' => [
-            'name' => 'Kamito QH19',
-            'price' => 2500000,
-            'image' => 'uploads/user/6741fb9b1a327_product11.webp',
-            'danh_muc' => 'Nike',
-        ],
-        'KMT002' => [
-            'name' => 'Kamito TA11',
-            'price' => 2500000,
-            'image' => 'uploads/user/674204ae50e50_product5.webp',
-            'danh_muc' => 'Nike',
-        ],
-        'NK001' => [
-            'name' => 'Nike Air Zoom Mercurial Vapor 15',
-            'price' => 2500000,
-            'image' => 'uploads/user/674204b856cb1_product-ct-1.webp',
-            'danh_muc' => 'Nike',
-        ],
-        'MZN002' => [
-            'name' => 'Mizuno Monarcida',
-            'price' => 2500000,
-            'image' => 'uploads/user/674204ca312d7_product-ct-3.webp',
-            'danh_muc' => 'Nike',
-        ],
-        'NK002' => [
-            'name' => 'NIKE AIR ZOOM MERCURIAL VAPOR 15 ACADEMY',
-            'price' => 2500000,
-            'image' => 'uploads/user/674204d57829d_product14.webp',
-            'danh_muc' => 'Nike',
-        ],
-        'NK003' => [
-            'name' => 'Nike Mercurial Vapor Zoom XIV Pro TF',
-            'price' => 2500000,
-            'image' => 'uploads/user/674204e0ac07a_product10.webp',
-            'danh_muc' => 'Nike',
-        ],
-    ];
-
-    // Thêm sản phẩm vào giỏ hàng
-    addToCart($productId, $quantity, $products);
-
-    // Điều hướng lại về trang giỏ hàng
-    header('Location: cart.php');
-    exit;
-}
+?>

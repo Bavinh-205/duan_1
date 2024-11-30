@@ -46,7 +46,9 @@
         .navbar { padding: 0 60px; margin-top: 10px; }
         .form-inline .search-input { height: 40px; }
         .dropdown-menu { width: 280px; padding: 15px; }
-        .dropdown-menu h5 { font-size: 18px; }
+        .dropdown-menu h5 {
+    font-size: 18px !important;
+}
         .btn-social { width: 100%; margin-bottom: 10px; }
         .short-line {
     width: 1px; /* Độ dày giống nhau */
@@ -238,6 +240,7 @@
     z-index: 1000; /* Đặt z-index phù hợp */
     color: black; /* Đảm bảo màu chữ là màu đen (hoặc có màu phù hợp với nền) */
     font-weight: bold;
+    
 }
 
 
@@ -285,7 +288,7 @@
         <?php endif; ?>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="loginDropdown">
-        <?php var_dump($_SESSION['user']); if (isset($_SESSION['user'])): ?>
+        <?php if (isset($_SESSION['user'])): ?>
             <!-- Nếu đã đăng nhập, hiển thị thông tin người dùng và nút đăng xuất -->
             <?php if ($_SESSION['user']['role'] == 'admin'): ?>
                 <h5 class="mb-2 user-info">Hi, Admin</h5>
@@ -297,8 +300,14 @@
                     <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng xuất</a>
                 </div>
             <?php else: ?>
-                <h5 class="mb-2 user-info">Hi, User</h5>
+                <h5 style="font-size:18px;" class="mb-2 user-info">Hi, User</h5>
                 <p class="mb-3">Bạn đã đăng nhập với quyền User vào Namperfume</p>
+                <div class="d-flex mb-3">
+                    <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Cập nhật tài khoản</a>
+                </div>
+                <div class="d-flex mb-3">
+                    <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đơn hàng</a>
+                </div>
                 <div class="d-flex mb-3">
                     <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng xuất</a>
                 </div>
@@ -332,7 +341,7 @@
                     </li>
                     <li class="nav-item mr-1">
                       <a class="nav-link" href="#">
-                        <img src="view/img/icon-cart.svg" alt="">
+                        <a href="index.php?act=cart"><img src="view/img/icon-cart.svg" alt=""></a>
                       </a>
                     </li>
                 </ul>

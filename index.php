@@ -6,7 +6,7 @@ require_once './commons/ConnectDatabase.php';
 require_once 'view/controllers/client.php';
 require_once 'view/controllers/product.php';
 require_once 'view/controllers/productdetail.php';
-require_once 'view/controllers/cart.php';
+require_once 'view/controllers/Cart.php';
 require_once 'view/controllers/regist.php';
 require_once 'view/header.php';
 
@@ -85,8 +85,28 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
             exit;
             break;
         case 'cart':
-            include 'view/cart.php';
-            break;
+                if (isset($_SESSION['user'])) {
+                    $email = $_SESSION['user']['email'];
+                    $cart = new Cart();
+                    $cartItems = $cart->getCartItems($email);
+                    var_dump($cartItems);
+                } else {
+                    echo "Bạn cần đăng nhập để xem giỏ hàng!";
+                }
+                if (isset($_POST['add_to_cart'])) {
+                    if (isset($_POST['ma_san_pham']) && isset($_POST['so_luong'])) {
+                        $ma_san_pham = $_POST['ma_san_pham'];
+                        $email = $_SESSION['user']['email'];
+                        $so_luong = $_POST['so_luong'];
+                
+                        $cart = new Cart();
+                        $cart->addProductToCart($ma_san_pham, $email, $so_luong); // Gọi phương thức thêm sản phẩm vào giỏ
+                    } else {
+                        echo "Thiếu thông tin sản phẩm hoặc số lượng!";
+                    }
+                }
+                include 'view/cart.php';
+        break;
         case 'regist':
             if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
                 // Lấy thông tin từ form
