@@ -248,7 +248,7 @@
     </style>
 </head>
 <body>
-<div class="container-fluid mr-0" style="padding: 0;">  
+<div class="container-fluid mr-0" style="padding: 0;position: sticky;">  
     <div class="d-none d-sm-block" style="background-color: #D72229; margin-top: 0;">  
         <div class="text-center color-white d-flex align-items-center justify-content-center" style="height: 60px; padding: 0;">  
             <h5 style="margin: 0;">Thương hiệu nước hoa được feedback nhiều nhất Việt Nam</h5>  
@@ -256,7 +256,7 @@
     </div>  
 </div>
 
-        <nav class="navbar navbar-expand-sm" style="background-color: #FFFFFF; margin-top: 10px;">
+        <nav class="navbar navbar-expand-sm" style="background-color: #FFFFFF; margin-top: 10px;position: sticky;">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -281,7 +281,7 @@
         <img src="view/img/icon-user.svg" alt="" style="width: 25px; height: auto; margin-right: 5px;">
         <?php if (isset($_SESSION['user'])): ?>
             <!-- Nếu đã đăng nhập, hiển thị email người dùng -->
-            Chào, <?php echo $_SESSION['user']['email']; ?>
+            Chào,Bạn
         <?php else: ?>
             <!-- Nếu chưa đăng nhập, hiển thị "Đăng nhập" -->
             Đăng nhập
@@ -306,7 +306,7 @@
                     <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Cập nhật tài khoản</a>
                 </div>
                 <div class="d-flex mb-3">
-                    <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đơn hàng</a>
+                    <a href="bill-confirm.php?order_id=<?= $ma_don_hang ?>" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đơn hàng</a>
                 </div>
                 <div class="d-flex mb-3">
                     <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng xuất</a>

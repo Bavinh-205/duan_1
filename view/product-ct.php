@@ -275,13 +275,11 @@ Chỉ còn <strong> <?php $discountedPrice = $productDetail['gia_ban'] * 0.9;
                 </div>
             </div>
             <div class="button-actions">
-            <?php foreach ($productDetail as $product): ?>
     <form action="index.php?act=cart" method="post">
-        <input type="hidden" name="ma_san_pham" value="<?php $productDetail['ma_san_pham'] ; ?>"> <!-- Mã sản phẩm tự động -->
-        <input type="number" name="so_luong" value="1" min="1">
+        <input type="hidden" name="ma_san_pham" value="<?= $productDetail['ma_san_pham']?>"> 
+        <input type="hidden" name="so_luong" value="1">
         <button type="submit" name="add_to_cart" class="btn btn-buy btn-add-to-cart">Thêm Vào Giỏ Hàng</button>
     </form>
-<?php endforeach; ?>
             </div>
         </div>
     </div>

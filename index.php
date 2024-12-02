@@ -8,6 +8,7 @@ require_once 'view/controllers/product.php';
 require_once 'view/controllers/productdetail.php';
 require_once 'view/controllers/Cart.php';
 require_once 'view/controllers/regist.php';
+require_once 'view/controllers/bill.php';
 require_once 'view/header.php';
 
 $product = new Product();
@@ -59,6 +60,8 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
             // Tiến hành xử lý sau khi đăng nhập thành công
             $_SESSION['user'] = [
                 'email' => $email,
+                'name' => $result ['ten_nguoi_dung'],
+                'phone' => $result ['sdt'],
                 'role' => $result['role']  // Lưu role (admin hoặc user)
             ];
 
@@ -89,7 +92,7 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
                     $email = $_SESSION['user']['email'];
                     $cart = new Cart();
                     $cartItems = $cart->getCartItems($email);
-                    var_dump($cartItems);
+                    // var_dump($cartItems); 
                 } else {
                     echo "Bạn cần đăng nhập để xem giỏ hàng!";
                 }
@@ -105,6 +108,32 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
                         echo "Thiếu thông tin sản phẩm hoặc số lượng!";
                     }
                 }
+                if (isset($_POST['remove']) && isset($_POST['ma_san_pham'])) {
+                    $ma_san_pham = $_POST['ma_san_pham'];
+                    $email = $_SESSION['user']['email']; // Thay vì $_SESSION['email'], sử dụng $_SESSION['user']['email']
+            
+                    $cart = new Cart();
+                    $cart->removeProductFromCart($ma_san_pham, $email);
+            
+                    header('Location: index.php?act=cart');
+                    exit();
+                }
+                if (isset($_POST['update_quantity'])) {
+                    $ma_san_pham = $_POST['ma_san_pham'];
+                    $email = $_SESSION['user']['email']; // Lấy email người dùng từ session
+                    $action = $_POST['action']; // Lấy hành động (increase hoặc decrease)
+            
+                    $cart = new Cart();
+                    if ($action == 'increase') {
+                        $cart->updateQuantity($ma_san_pham, $email, 1); // Tăng số lượng
+                    } elseif ($action == 'decrease') {
+                        $cart->updateQuantity($ma_san_pham, $email, -1); // Giảm số lượng
+                    }
+            
+                    header('Location: index.php?act=cart'); // Chuyển hướng về giỏ hàng sau khi cập nhật
+                    exit();
+                }
+                
                 include 'view/cart.php';
         break;
         case 'regist':
@@ -134,9 +163,71 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
             }
             include 'view/regist.php';
             break;
-        // default:
-        //     header('Location: index.php');
-        //     break;
+        case 'bill':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if (isset($_SESSION['user'])) {
+                // Lấy thông tin từ form thanh toán
+                $fullName = $_POST['fullName'] ?: $_SESSION['user']['name'];  // Nếu form không có tên, lấy từ session
+                $email = $_POST['email'] ?: $_SESSION['user']['email'];       // Nếu form không có email, lấy từ session
+                $phone = $_POST['phone'] ?: $_SESSION['user']['phone'];       // Nếu form không có số điện thoại, lấy từ session
+                $address = $_POST['address'];
+                $total = $_POST['total'];  // Tổng tiền
+                $payment_method = $_POST['payment_method'];  // Phương thức thanh toán
+                $order_status = 1;  // Trạng thái đơn hàng (1 - Đang xử lý)
+        
+                // Lưu thông tin vào bảng "don_hangs"
+                $bill = new Bill();  
+                $order_id = $bill->savePayment($user_id, $fullName, $email, $phone, $address, $total, $payment_method, $order_status);
+        
+                // Sau khi lưu đơn hàng, lấy các sản phẩm trong giỏ hàng
+                $cartItems = $bill->getCartItems($email);
+
+                // Sau khi lưu đơn hàng, lấy các sản phẩm trong giỏ hàng
+                $cartItems = $bill->getCartItems($email);
+                $email = $_SESSION['user']['email']; // Lấy email từ session
+                $user_id = $_SESSION['user']['id'];  // Lấy ID người dùng từ session
+                header('Location: bill.php');
+                exit;
+                } else {
+                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+                header('Location: login.php');
+                exit;
+                }
+            }
+            var_dump($order_id);
+            include 'view/bill.php';  // Hiển thị giao diện thanh toán
+            break;
+        case 'checkout':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Nhận tổng tiền từ form
+            $total_amount = isset($_POST['total_amount']) ? $_POST['total_amount'] : 0;
+            
+            if ($total_amount > 0) {
+                // Xử lý thanh toán thành công
+                // Ở đây, bạn có thể làm việc với API thanh toán hoặc thực hiện thao tác thanh toán (ở ví dụ này, chúng ta giả sử thanh toán thành công).
+
+                // Sau khi thanh toán thành công, xóa giỏ hàng của người dùng (nếu giỏ hàng được lưu trong session)
+                $email = $_SESSION['user']['email'];  // Lấy email người dùng
+                unset($_SESSION['cart']);  // Xóa giỏ hàng khỏi session (nếu giỏ hàng được lưu trong session)
+                unset($_SESSION['user']['name']);
+                unset($_SESSION['user']['email']);
+                unset($_SESSION['user']['address']);
+                unset($_SESSION['user']['payment_method']);
+    
+                // Thông báo thành công
+                $_SESSION['message'] = "Thanh toán thành công! Cảm ơn bạn đã mua hàng.";
+
+                // Chuyển hướng người dùng về trang giỏ hàng hoặc trang chủ
+                header('Location: index.php?act=bill');
+                exit;
+            } else {
+                // Nếu có lỗi trong quá trình thanh toán
+                $_SESSION['error'] = "Có lỗi trong quá trình thanh toán. Vui lòng thử lại.";
+                header('Location: index.php?act=cart');
+                exit;
+            }
+            }
+            break;
          
     }
 }else{

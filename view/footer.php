@@ -153,7 +153,7 @@
                 </ul>
             </div>
             <div class="column">
-                <h3>Hỗ Trợ</h3>
+                <h3 class="mx-5">Hỗ Trợ</h3>
                 <ul>
                     <li><a href="#">Các câu hỏi thường gặp</a></li>
                     <li><a href="#">Hướng dẫn đặt hàng</a></li>
@@ -189,43 +189,9 @@
             <p>Địa chỉ: Tầng 7, 19A Cộng Hòa, Tòa Nhà Scetpa, Quận Tân Bình, TP. Hồ Chí Minh</p>
         </div>
     </footer>
-    <div class="fixed-icons">
-        <!-- Messenger Icon -->
-        <a href="https://m.me/yourprofile" target="_blank">
-            <i class="fab fa-facebook-messenger messenger-icon"></i>
-        </a>
 
-        <!-- Zalo Icon -->
-        <a href="https://zalo.me/yourzaloid" target="_blank" class="zalo-icon">
-            <img src="view/img/chat-new.webp" alt="Zalo Logo">
-        </a>
-        <a href="https://zalo.me/yourzaloid" target="_blank" class="zalo-icon">
-            <img src="view/img/icon_zalo1.webp" alt="Zalo Logo">
-        </a>
-    </div>
-    <button class="mx-2" id="scrollToTopBtn">  
-    <span class="arrow-up"></span> <br>Lên đầu  
-</button>   
+  
 </div>
-    <script>
-        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
-
-window.onscroll = () => {
-    // Hiển thị nút khi cuộn xuống
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        scrollToTopBtn.style.display = "block";
-    } else {
-        scrollToTopBtn.style.display = "none";
-    }
-};
-
-scrollToTopBtn.onclick = () => {
-    // Cuộn mượt về đầu trang
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-};
-    </script>
+    
 </body>
 </html>
