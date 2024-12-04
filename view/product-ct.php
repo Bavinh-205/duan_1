@@ -278,6 +278,7 @@ Chỉ còn <strong> <?php $discountedPrice = $productDetail['gia_ban'] * 0.9;
     <form action="index.php?act=cart" method="post">
         <input type="hidden" name="ma_san_pham" value="<?= $productDetail['ma_san_pham']?>"> 
         <input type="hidden" name="so_luong" value="1">
+        <input type="hidden" name="size" id="selected-size" value="Eau de Parfum 100ml">
         <button type="submit" name="add_to_cart" class="btn btn-buy btn-add-to-cart">Thêm Vào Giỏ Hàng</button>
     </form>
             </div>
@@ -326,82 +327,7 @@ Chỉ còn <strong> <?php $discountedPrice = $productDetail['gia_ban'] * 0.9;
 <?php else: ?>
     <p>Sản Phẩm không tồn tại</p>
 <?php endif; ?>
-<div class="container-fluid mt-4">
-    <h4>Sản Phẩm Liên Quan</h4>
-    <div class="row">
-        <!-- Sản phẩm 1 -->
-        <div class="col-md-2 mb-4">
-            <div class="card">
-                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">Product Name 1</h5>
-                    <p class="card-text">₫1,500,000</p>
-                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
-                </div>
-            </div>
-        </div>
 
-        <!-- Sản phẩm 2 -->
-        <div class="col-md-2 mb-4">
-            <div class="card">
-                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">Product Name 2</h5>
-                    <p class="card-text">₫1,600,000</p>
-                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 3 -->
-        <div class="col-md-2 mb-4">
-            <div class="card">
-                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">Product Name 3</h5>
-                    <p class="card-text">₫1,700,000</p>
-                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 4 -->
-        <div class="col-md-2 mb-4">
-            <div class="card">
-                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">Product Name 4</h5>
-                    <p class="card-text">₫1,800,000</p>
-                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 5 -->
-        <div class="col-md-2 mb-4">
-            <div class="card">
-                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">Product Name 5</h5>
-                    <p class="card-text">₫1,900,000</p>
-                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 6 -->
-        <div class="col-md-2 mb-4">
-            <div class="card">
-                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">Product Name 6</h5>
-                    <p class="card-text">₫2,000,000</p>
-                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="container-fluid mt-4">
     <h4>Bình Luận</h4>
@@ -472,13 +398,16 @@ Chỉ còn <strong> <?php $discountedPrice = $productDetail['gia_ban'] * 0.9;
 </div>
 </div>
 <script>
-    document.querySelectorAll('.btn-size').forEach(btn => {
+   document.querySelectorAll('.btn-size').forEach(btn => {
     btn.addEventListener('click', function() {
         // Xóa class 'active' khỏi tất cả các nút
         document.querySelectorAll('.btn-size').forEach(b => b.classList.remove('active'));
         
         // Thêm class 'active' cho nút được nhấn
         this.classList.add('active');
+        
+        // Cập nhật giá trị của trường ẩn 'size' theo nút được chọn
+        document.getElementById('selected-size').value = this.textContent.trim();
     });
 });
 </script>

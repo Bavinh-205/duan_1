@@ -1,0 +1,91 @@
+        <?php foreach ($orderItems as $item): ?>
+            <tr>
+                <td><?php echo $item['san_pham_id']; ?> <!-- Bạn có thể thay `san_pham_id` bằng tên sản phẩm nếu có bảng sản phẩm --> </td>
+                <td><?php echo number_format($item['don_gia'], 0, ',', '.'); ?> VND</td>
+                <td><?php echo $item['so_luong']; ?></td>
+                <td><?php echo number_format($item['thanh_tien'], 0, ',', '.'); ?> VND</td>
+            </tr>
+        <?php endforeach; ?>
+        <!-- Hiển thị thông tin đơn hàng -->
+<h2>Mã đơn hàng: <?php echo $orderDetails['ma_don_hang']; ?></h2>
+<p><strong>Tên người nhận:</strong> <?php echo $orderDetails['ten_nguoi_nhan']; ?></p>
+<p><strong>Email:</strong> <?php echo $orderDetails['email_nguoi_nhan']; ?></p>
+<p><strong>Số điện thoại:</strong> <?php echo $orderDetails['sdt_nguoi_nhan']; ?></p>
+<p><strong>Địa chỉ:</strong> <?php echo $orderDetails['dia_chi_nguoi_nhan']; ?></p>
+<p><strong>Tổng tiền:</strong> <?php echo number_format($orderDetails['tong_tien'], 0, ',', '.'); ?> VND</p>
+<div class="container-fluid mt-4">
+    <h4>Sản Phẩm Liên Quan</h4>
+    <div class="row">
+        <!-- Sản phẩm 1 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 1</h5>
+                    <p class="card-text">₫1,500,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 2 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 2</h5>
+                    <p class="card-text">₫1,600,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 3 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 3</h5>
+                    <p class="card-text">₫1,700,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 4 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 4</h5>
+                    <p class="card-text">₫1,800,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 5 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 5</h5>
+                    <p class="card-text">₫1,900,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm 6 -->
+        <div class="col-md-2 mb-4">
+            <div class="card">
+                <img src="path_to_image" class="card-img-top" alt="Product Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Product Name 6</h5>
+                    <p class="card-text">₫2,000,000</p>
+                    <a href="product_detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

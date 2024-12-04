@@ -1,4 +1,6 @@
-
+<?php
+// $cartItems = isset($_SESSION['cart']) ? $_SESSION['cart'] : []; // Nếu chưa có giỏ hàng, khởi tạo mảng rỗng
+?>  
 <div class="container-fluid my-4">
     <h4 class="d-flex justify-content-between align-items-center" style="text-transform:none; font-weight:500; margin-left:80px;">
         Giỏ hàng <br> (<?= count($cartItems) ?> Sản Phẩm)
@@ -20,7 +22,7 @@
                         <div class="col-md-12 d-flex justify-content-start align-items-center mb-3">
                             <img class="img-fluid mx-2" src="<?= $item['hinh_anh'] ?>" alt="<?= $item['ma_san_pham'] ?>" style="width: 150px; height: 150px;">
                             <div class="mx-5">
-                                <h6 class="mb-2"><?= $item['ten_san_pham'] ?></h6>
+                                <h6 style=" white-space: normal; " class="mb-2"><?= $item['ten_san_pham'] ?></h6>
                                 <span class="d-block text-truncate"><?= $item['ten_san_pham'] ?></span><br>
                                 <span>Mã hàng: <?= $item['ma_san_pham'] ?></span>
                             </div>

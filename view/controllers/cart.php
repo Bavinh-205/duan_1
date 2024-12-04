@@ -104,55 +104,39 @@ var_dump($product); // In ra thông tin sản phẩm để kiểm tra
         $stmt->execute();
     }
     public function updateQuantity($ma_san_pham, $email, $so_luong_thay_doi) {
-        // Lấy thông tin sản phẩm trong giỏ hàng của người dùng
-        $sql = "SELECT so_luong FROM gio_hangs WHERE ma_san_pham = :ma_san_pham AND email = :email";
+        // Lấy thông tin sản phẩm trong giỏ hàng
+        $sql = "SELECT so_luong, so_luong_con_lai FROM gio_hangs WHERE ma_san_pham = :ma_san_pham AND email = :email";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':ma_san_pham', $ma_san_pham);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         $item = $stmt->fetch(PDO::FETCH_ASSOC);
     
-        // Nếu sản phẩm có trong giỏ hàng
         if ($item) {
-            // Lấy số lượng sản phẩm còn trong kho
-            $stock = $this->getProductStock($ma_san_pham); // Lấy số lượng kho
-            echo "Số lượng kho hiện tại: " . $stock . "<br>"; // Kiểm tra số lượng kho hiện tại
-    
-            // Tính toán số lượng mới trong giỏ hàng
+            // Tính toán số lượng mới trong giỏ hàng và kho
             $newQuantity = $item['so_luong'] + $so_luong_thay_doi;
+            $newStock = $item['so_luong_con_lai'] - $so_luong_thay_doi;
     
-            // Kiểm tra nếu số lượng mới không nhỏ hơn 1 và không vượt quá số lượng trong kho
-            if ($newQuantity > 0 && $newQuantity <= $stock) {
-                // Cập nhật số lượng sản phẩm trong giỏ hàng
-                $sqlUpdate = "UPDATE gio_hangs SET so_luong = :so_luong WHERE ma_san_pham = :ma_san_pham AND email = :email";
+            // Kiểm tra điều kiện hợp lệ
+            if ($newQuantity > 0 && $newStock >= 0) {
+                // Cập nhật số lượng trong giỏ hàng
+                $sqlUpdate = "UPDATE gio_hangs SET so_luong = :so_luong, so_luong_con_lai = :so_luong_con_lai WHERE ma_san_pham = :ma_san_pham AND email = :email";
                 $stmtUpdate = $this->conn->prepare($sqlUpdate);
                 $stmtUpdate->bindParam(':so_luong', $newQuantity);
+                $stmtUpdate->bindParam(':so_luong_con_lai', $newStock);
                 $stmtUpdate->bindParam(':ma_san_pham', $ma_san_pham);
                 $stmtUpdate->bindParam(':email', $email);
                 $stmtUpdate->execute();
     
-                // Nếu số lượng thay đổi dương, giảm số lượng trong kho
-                if ($so_luong_thay_doi > 0) {
-                    $newStock = $stock - $so_luong_thay_doi;
-                    $this->updateProductStock($ma_san_pham, $newStock); // Gọi phương thức cập nhật kho
-                }
-                // Nếu số lượng thay đổi âm, tăng số lượng trong kho
-                elseif ($so_luong_thay_doi < 0) {
-                    $newStock = $stock + abs($so_luong_thay_doi); // abs() để lấy số dương
-                    $this->updateProductStock($ma_san_pham, $newStock); // Gọi phương thức cập nhật kho
-                }
-    
-                // Kiểm tra lại số lượng kho sau khi cập nhật
-                echo "Số lượng kho sau khi cập nhật: " . $newStock . "<br>";
+                // Cập nhật kho hàng
+                $this->updateProductStock($ma_san_pham, $newStock);
             } else {
                 echo "Số lượng không hợp lệ!";
             }
         } else {
             echo "Sản phẩm không có trong giỏ hàng!";
         }
-    }
-    
-    
+    }    
 }
 
 

@@ -306,7 +306,7 @@
                     <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Cập nhật tài khoản</a>
                 </div>
                 <div class="d-flex mb-3">
-                    <a href="bill-confirm.php?order_id=<?= $ma_don_hang ?>" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đơn hàng</a>
+                    <a href="index.php?act=bill-confirm" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đơn hàng</a>
                 </div>
                 <div class="d-flex mb-3">
                     <a href="index.php?act=logout" class="btn btn-outline-secondary custom-btn flex-grow-1" style="margin-right:5px;">Đăng xuất</a>

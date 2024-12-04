@@ -63,6 +63,43 @@ class Bill {
         // Trả về ID đơn hàng vừa lưu
         return $pdo->lastInsertId();
     }
+    public function deleteCartItems($email) {
+        $sql = "DELETE FROM gio_hangs WHERE email = :email";  // Xóa sản phẩm trong giỏ hàng của người dùng
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        return $stmt->execute();  // Thực thi câu lệnh SQL
+    }
+    public function getOrderDetails($order_id) {
+        $sql = "SELECT ctdh.*, sp.ten_san_pham, sp.hinh_anh 
+                FROM chi_tiet_don_hangs ctdh
+                INNER JOIN san_phams sp ON ctdh.product_id = sp.id
+                WHERE ctdh.order_id = :order_id";  // Lấy thông tin chi tiết của đơn hàng theo order_id
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':order_id', $order_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);  // Lấy tất cả các sản phẩm trong đơn hàng
+    }
+
+// Hàm để lưu đánh giá của sản phẩm
+function saveProductReview($order_id, $product_id, $user_email, $rating, $review) {
+    global $conn; // Kết nối CSDL từ db.php
+
+    // Câu lệnh SQL để lưu đánh giá vào CSDL
+    $sql = "INSERT INTO product_reviews (ma_don_hang, ma_san_pham, id_nguoi_dung, danh_gia, nhan_xet) 
+            VALUES (:order_id, :product_id, :user_email, :rating, :review)";
     
-   
+    // Chuẩn bị câu lệnh SQL
+    $stmt = $conn->prepare($sql);
+    
+    // Liên kết các tham số với câu lệnh
+    $stmt->bindValue(':order_id', $order_id, PDO::PARAM_INT);
+    $stmt->bindValue(':product_id', $product_id, PDO::PARAM_INT);
+    $stmt->bindValue(':user_email', $user_email, PDO::PARAM_STR); // Lưu email người dùng thay vì ID
+    $stmt->bindValue(':rating', $rating, PDO::PARAM_INT);
+    $stmt->bindValue(':review', $review, PDO::PARAM_STR);
+
+    // Thực thi câu lệnh SQL và trả về kết quả true/false
+    return $stmt->execute(); 
+}
+
 }

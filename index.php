@@ -9,6 +9,7 @@ require_once 'view/controllers/productdetail.php';
 require_once 'view/controllers/Cart.php';
 require_once 'view/controllers/regist.php';
 require_once 'view/controllers/bill.php';
+require_once 'view/controllers/billControllers.php';
 require_once 'view/header.php';
 
 $product = new Product();
@@ -36,14 +37,13 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
             break;
         case 'login':
                if (isset($_SESSION['user'])) {
-        // Nếu đã đăng nhập, điều hướng đến trang dashboard của họ
-        if ($_SESSION['user']['role'] === 'admin') {
+            // Nếu đã đăng nhập, điều hướng đến trang dashboard của họ
+                 if ($_SESSION['user']['role'] === 'admin') {
             header('Location: admin/index.php');
-        } else {
+            } else {
             header('Location: index.php');
-        }
-        exit;
-    }
+            }
+            exit;}
 
     // Kiểm tra nếu form đăng nhập được gửi
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
@@ -67,7 +67,7 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
 
             // Điều hướng đến trang admin hoặc user dashboard
             if ($result['role'] === 'admin') {
-                header('Location: admin/index.php');  // Điều hướng đến trang admin
+                header('Location: index.php');  // Điều hướng đến trang admin
             } else {
                 header('Location: index.php');  // Điều hướng đến trang người dùng
             }
@@ -101,6 +101,7 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
                         $ma_san_pham = $_POST['ma_san_pham'];
                         $email = $_SESSION['user']['email'];
                         $so_luong = $_POST['so_luong'];
+                        $size = $_POST['size']; 
                 
                         $cart = new Cart();
                         $cart->addProductToCart($ma_san_pham, $email, $so_luong); // Gọi phương thức thêm sản phẩm vào giỏ
@@ -120,19 +121,21 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
                 }
                 if (isset($_POST['update_quantity'])) {
                     $ma_san_pham = $_POST['ma_san_pham'];
-                    $email = $_SESSION['user']['email']; // Lấy email người dùng từ session
-                    $action = $_POST['action']; // Lấy hành động (increase hoặc decrease)
-            
+                    $email = $_SESSION['user']['email'];
+                    $action = $_POST['action'];
+                
                     $cart = new Cart();
+                
                     if ($action == 'increase') {
-                        $cart->updateQuantity($ma_san_pham, $email, 1); // Tăng số lượng
+                        $cart->updateQuantity($ma_san_pham, $email, 1); // Tăng số lượng trong cả giỏ và kho
                     } elseif ($action == 'decrease') {
-                        $cart->updateQuantity($ma_san_pham, $email, -1); // Giảm số lượng
+                        $cart->updateQuantity($ma_san_pham, $email, -1); // Giảm số lượng trong cả giỏ và kho
                     }
-            
-                    header('Location: index.php?act=cart'); // Chuyển hướng về giỏ hàng sau khi cập nhật
+                
+                    header('Location: index.php?act=cart');
                     exit();
                 }
+                
                 
                 include 'view/cart.php';
         break;
@@ -194,41 +197,128 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
                 exit;
                 }
             }
-            var_dump($order_id);
             include 'view/bill.php';  // Hiển thị giao diện thanh toán
             break;
-        case 'checkout':
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Nhận tổng tiền từ form
-            $total_amount = isset($_POST['total_amount']) ? $_POST['total_amount'] : 0;
+            case 'checkout':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $total_amount = isset($_POST['total_amount']) ? $_POST['total_amount'] : 0;
+                    $email = $_SESSION['user']['email']; 
+                    $name = isset($_POST['name']) ? $_POST['name'] : '';
+                    $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
+                    $address = isset($_POST['address']) ? $_POST['address'] : '';
+                    $payment_method = isset($_POST['payment_method']) ? (int) $_POST['payment_method'] : 0;
             
-            if ($total_amount > 0) {
-                // Xử lý thanh toán thành công
-                // Ở đây, bạn có thể làm việc với API thanh toán hoặc thực hiện thao tác thanh toán (ở ví dụ này, chúng ta giả sử thanh toán thành công).
-
-                // Sau khi thanh toán thành công, xóa giỏ hàng của người dùng (nếu giỏ hàng được lưu trong session)
-                $email = $_SESSION['user']['email'];  // Lấy email người dùng
-                unset($_SESSION['cart']);  // Xóa giỏ hàng khỏi session (nếu giỏ hàng được lưu trong session)
-                unset($_SESSION['user']['name']);
-                unset($_SESSION['user']['email']);
-                unset($_SESSION['user']['address']);
-                unset($_SESSION['user']['payment_method']);
-    
-                // Thông báo thành công
-                $_SESSION['message'] = "Thanh toán thành công! Cảm ơn bạn đã mua hàng.";
-
-                // Chuyển hướng người dùng về trang giỏ hàng hoặc trang chủ
-                header('Location: index.php?act=bill');
-                exit;
-            } else {
-                // Nếu có lỗi trong quá trình thanh toán
-                $_SESSION['error'] = "Có lỗi trong quá trình thanh toán. Vui lòng thử lại.";
-                header('Location: index.php?act=cart');
-                exit;
-            }
-            }
-            break;
-         
+                    // Giả sử thanh toán thành công
+                    if ($total_amount > 0) {
+                        // Tạo mã đơn hàng
+                        $order_id = 'DH-' . uniqid(); // ID người dùng từ session
+                        $_SESSION['order_id'] = $order_id;
+            
+                        // Khởi tạo đối tượng Order
+                        $order = new Order();
+                        $user_id = $order->getUserIdByEmail($email);
+                        
+                        // Lưu đơn hàng vào bảng don_hangs
+                        if ($order->createOrder($order_id, $user_id, $name, $email, $phone, $address, $total_amount, $payment_method)) {     
+                            // Lưu chi tiết sản phẩm vào bảng chi_tiet_don_hangs
+                            foreach ($_SESSION['cart'] as $item) {
+                                $product_id = $item['id'];
+                                $price = $item['price'];
+                                $quantity = $item['quantity'];
+                                $total_price = $price * $quantity;
+                                $order->createOrderItems($order_id, $product_id, $price, $quantity, $total_price);
+                            }
+            
+                            // Xóa giỏ hàng trong cơ sở dữ liệu sau khi thanh toán
+                            $bill = new Bill();
+                            $bill->deleteCartItems($email);
+            
+                            // Xóa giỏ hàng trong session
+                            unset($_SESSION['cart']);
+            
+                            // Chuyển hướng đến trang xác nhận đơn hàng
+                            $_SESSION['message'] = "Thanh toán thành công!";
+                            header('Location: index.php?act=bill');
+                            exit;
+                        } else {
+                            $_SESSION['error'] = "Có lỗi trong quá trình thanh toán.";
+                            header('Location: index.php?act=cart');
+                            exit;
+                        }
+                    } else {
+                        $_SESSION['error'] = "Có lỗi trong quá trình thanh toán.";
+                        header('Location: index.php?act=cart');
+                        exit;
+                    }
+                }
+                include 'view/bill.php';  // Hiển thị giao diện thanh toán
+                break;
+            
+                    case 'bill-confirm':
+                        if (isset($_SESSION['order_id'])) {  // Kiểm tra sự tồn tại của order_id trong session
+                            $order = new Order();
+                            $order_id = $_SESSION['order_id'];  // Lấy mã đơn hàng từ session
+                    
+                            // Lấy chi tiết đơn hàng
+                            $orderDetails = $order->getOrderDetails($order_id);
+                            if (!$orderDetails) {
+                                $_SESSION['error'] = "Không tìm thấy đơn hàng.";
+                                // Không chuyển hướng về trang chủ, mà vẫn giữ lại trang bill-confirm
+                                include 'view/bill-confirm.php';
+                                exit;
+                            }
+                    
+                            $orderItems = $order->getOrderItems($order_id);  // Lấy danh sách sản phẩm của đơn hàng
+                            include 'view/bill-confirm.php';
+                        } else {
+                            $_SESSION['error'] = "Không tìm thấy mã đơn hàng. Vui lòng thử lại.";
+                            include 'view/bill-confirm.php';
+                            exit;
+                        }
+                        break;
+                    
+                    case 'delete-bill':
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-bill'])) {
+                            $order_id = $_POST['order_id'] ?? null;
+                    
+                            if ($order_id) {
+                                $order = new Order();
+                    
+                                if ($order->cancelOrder($order_id)) {
+                                    // Xóa dữ liệu liên quan đến đơn hàng khỏi session
+                                    unset($_SESSION['order_id']);
+                                    $_SESSION['message'] = "Đơn hàng đã bị hủy!";
+                                } else {
+                                    $_SESSION['error'] = "Không thể hủy đơn hàng. Vui lòng thử lại!";
+                                }
+                            } else {
+                                $_SESSION['error'] = "Không tìm thấy mã đơn hàng để hủy.";
+                            }
+                    
+                            // Điều hướng lại về trang bill-confirm mà không chuyển về trang chủ
+                            header('Location: index.php?act=bill-confirm');
+                            exit;
+                        }
+                        break;
+                case 'review':
+                    if (isset($_POST['rating']) && isset($_POST['review']) && isset($_POST['order_id']) && isset($_POST['product_id']) && isset($_POST['user_email'])) {
+                        // Lấy dữ liệu từ form
+                        $order_id = $_POST['order_id'];
+                        $product_id = $_POST['product_id'];
+                        $user_email = $_POST['user_email']; // Lấy email của người dùng
+                        $rating = $_POST['rating'];
+                        $review = $_POST['review'];
+                    
+                        // Gọi hàm lưu đánh giá vào CSDL
+                        $result = saveProductReview($order_id, $product_id, $user_email, $rating, $review);
+                    
+                        // Kiểm tra kết quả lưu đánh giá
+                        if ($result) {
+                            echo "Đánh giá đã được gửi thành công!";
+                        } else {
+                            echo "Có lỗi xảy ra khi gửi đánh giá!";
+                        }
+                    }           
     }
 }else{
     require_once 'view/home.php';
