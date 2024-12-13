@@ -11,7 +11,7 @@ class DonHang
     public function getAll()
     {
         try {
-            $sql = 'SELECT * FROM don_hangs';
+            $sql = 'SELECT * FROM don_hangs ORDER BY id DESC';
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -128,6 +128,11 @@ class DonHang
     public function UpdateData($id, $trang_thai_id)
     {
         try {
+            $currentData = $this->getDetaiData($id);
+            $currentStatus = $currentData['trang_thai_id'];
+            if ($trang_thai_id < $currentStatus) {
+                throw new Exception('Không thể chọn trạng thái nhỏ hơn trạng thái hiện tại.');
+            }
             // Corrected SQL query
             $sql = 'UPDATE don_hangs 
                     SET trang_thai_id=:trang_thai_id
@@ -147,7 +152,20 @@ class DonHang
         }
     }
 
-
+    public function updateTrangThaiThanhToan($id, $trang_thai_thanh_toan)
+    {
+        try {
+            $sql = 'UPDATE don_hangs SET trang_thai_thanh_toan = :trang_thai_thanh_toan WHERE id = :id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':trang_thai_thanh_toan', $trang_thai_thanh_toan);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return true;
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+            return false;
+        }
+    }
 
     // xóa danh mục
     public function deleteData($id)

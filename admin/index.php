@@ -14,8 +14,6 @@ require_once 'controllers/DanhMucController.php';
 require_once './models/DanhMuc.php';
 
 // lien he
-require_once './controllers/LienHeContronller.php';
-require_once './models/lienHe.php';
 // người dùng
 require_once './controllers/NguoiDungController.php';
 require_once './models/NguoiDung.php';
@@ -23,18 +21,12 @@ require_once './models/NguoiDung.php';
 require_once './controllers/SanPhamController.php';
 require_once './models/SanPham.php';
 //tin tức
-require_once './controllers/TintucControllers.php';
-require_once './models/tintuc.php';
 // Banner
-require_once './controllers/Bannercontrollers.php';
-require_once './models/banner.php';
 
 // trạng thái
 require_once './controllers/TrangThaiController.php';
 require_once './models/TrangThai.php';
 // khuyến mãi
-require_once './controllers/KhuyenMaiController.php';
-require_once './models/KhuyenMai.php';
 
 // đơn hàng
 require_once './controllers/DonHangController.php';
@@ -58,11 +50,7 @@ match ($act) {
   'sua-danh-muc'               => (new DanhMucController())->update(),
   'xoa-danh-muc'               => (new DanhMucController())->destroy(),
 
-  // quản lý Liên Hệ
-  'lien-he'                    => (new LienHeController())->index(),
-  'form-sua-lien-he'           => (new LienHeController())->edit(),
-  'sua-lien-he'                => (new LienHeController())->update(),
-  'xoa-lien-he'                => (new LienHeController())->destroy(),
+
 
   // quản lý người dùng
   'nguoi-dung'                    => (new nguoiDungController())->index(),
@@ -72,13 +60,7 @@ match ($act) {
   'sua-nguoi-dung'                => (new nguoiDungController())->update(),
   'xoa-nguoi-dung'                => (new nguoiDungController())->destroy(),
 
-  // quản lý tin tức
-  // 'tin-tuc'                    => (new TintucController())->index(),
-  // 'from-them-tin-tuc'          => (new TintucController())->create(),
-  // 'them-tin-tuc'               => (new TintucController())->store(),
-  // 'form-sua-tin-tuc'           => (new TintucController())->edit(),
-  // 'sua-tin-tuc'                => (new TintucController())->update(),
-  // 'xoa-tin-tuc'                => (new TintucController())->destroy(),
+
 
   // quản lý Sản Phẩm
   'san-pham'                    => (new SanPhamController())->index(),
@@ -88,21 +70,8 @@ match ($act) {
   'sua-san-pham'                => (new SanPhamController())->update(),
   'chi-tiet-san-pham'           => (new SanPhamController())->chitiet(),
   'xoa-san-pham'               => (new SanPhamController())->destroy(),
-  // quanr lý banner
-  'banner'                     => (new BannerController())->index(),
-  'from-them-banner'          => (new BannerController())->create(),
-  'them-banner'               => (new BannerController())->store(),
-  'form-sua-banner'           => (new BannerController())->edit(),
-  'sua-banner'                => (new BannerController())->update(),
-  'xoa-banner'                => (new BannerController())->destroy(),
 
-  // quản lý tin tức
-  'tin-tuc'                    => (new TintucController())->index(),
-  'from-them-tin-tuc'          => (new TintucController())->create(),
-  'them-tin-tuc'               => (new TintucController())->store(),
-  'form-sua-tin-tuc'           => (new TintucController())->edit(),
-  'sua-tin-tuc'                => (new TintucController())->update(),
-  'xoa-tin-tuc'                => (new TintucController())->destroy(),
+
 
   // quản lý trạng thái
   'trang-thai'                    => (new trangThaiController())->index(),
@@ -112,13 +81,6 @@ match ($act) {
   'sua-trang-thai'                => (new trangThaiController())->update(),
   'xoa-trang-thai'                => (new trangThaiController())->destroy(),
 
-  // quản lý khuyến mãi
-  'khuyen-mai'                      => (new khuyenMaiController())->index(),
-  'form-them-khuyen-mai'            => (new khuyenMaiController())->create(),
-  'them-khuyen-mai'                 => (new khuyenMaiController())->store(),
-  'form-sua-khuyen-mai'             => (new khuyenMaiController())->edit(),
-  'sua-khuyen-mai'                  => (new khuyenMaiController())->update(),
-  'xoa-khuyen-mai'                  => (new khuyenMaiController())->destroy(),
 
 
   // quản lý Đơn hàng

@@ -36,7 +36,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-end">
             <!-- item-->
-            <h6 class="dropdown-header">Welcome ShoesWorld!</h6>
+            <h6 class="dropdown-header">Welcome NamPerfume</h6>
             <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
             <a class="dropdown-item" href="auth-logout-basic.html"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
         </div>
@@ -70,22 +70,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarLienHe" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLienHe">
-                        <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Liên Hệ</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarLienHe">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
 
-                                <a href="?act=lien-he" class="nav-link" data-key="t-sweet-alerts">
-                                    Vào Trang Liên Hệ
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarNguoiDung" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarNguoiDung">
                         <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Người dùng</span>
@@ -102,22 +87,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarTinTuc" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarTinTuc">
-                        <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Tin tức</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarTinTuc">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
 
-                                <a href="?act=tin-tuc" class="nav-link" data-key="t-sweet-alerts">
-                                    Vào Trang Tin Tức
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarSanPham" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSanPham">
@@ -136,22 +106,6 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarBanner" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarBanner">
-                        <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Banner</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarBanner">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-
-                                <a href="?act=banner" class="nav-link" data-key="t-sweet-alerts">
-                                    Vào Trang Banner
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDonhang" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDonhang">
@@ -170,22 +124,6 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarKhuyenMai" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarKhuyenMai">
-                        <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Khuyến Mãi</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarKhuyenMai">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-
-                                <a href="?act=khuyen-mai" class="nav-link" data-key="t-sweet-alerts">
-                                    Vào Trang Khuyến Mãi
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDonHang" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDonHang">
