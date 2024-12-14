@@ -238,22 +238,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div>  
 
                                 <!-- Product List Table -->
-                                <div class="table-responsive">
-                                    <table id="example" class="table product-table">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Tên sản phẩm</th>
-                                                <th>Số lượng</th>
-                                                <th>Đơn giá</th>
-                                                <th>Giảm giá</th>
-                                                <th>Thành tiền</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
                                             <?php $tong_tien = 0; ?>
                                             <?php foreach ($sanPhamDonHang as $key => $sanPham) : ?>
                                                 <tr>
@@ -272,24 +259,22 @@
 
                                 <!-- Order Summary Table -->
                                 <div class="table-responsive">
-                                    <table class="table summary-table">
-                                        <tr>
-                                            <th>Thành tiền:</th>
-                                            <td><?= number_format($tong_tien, 0, ',', '.') ?>đ</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Vận chuyển:</th>
-                                            <td>20.000đ</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Tổng tiền:</th>
-                                            <td><?= number_format($tong_tien + 20000, 0, ',', '.') ?>đ</td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                <table class="table summary-table">
+                                    <tr>
+                                        <th>Thành tiền:</th>
+                                        <td><?= number_format($donHang['tong_tien'], 0, ',', '.') ?>đ</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Vận chuyển:</th>
+                                        <td>0đ</td> <!-- Bạn có thể giữ 0đ nếu không có phí vận chuyển -->
+                                    </tr>
+                                    <tr>
+                                        <th>Tổng tiền:</th>
+                                        <td><?= number_format($donHang['tong_tien'], 0, ',', '.') ?>đ</td>
+                                    </tr>
+                                </table>
                             </div>
-                        </div>
-                    </div>
+
 
 
 
