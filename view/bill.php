@@ -53,29 +53,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="text" class="form-control" name="address" id="address" placeholder="Nhập địa chỉ" style="max-width: 580px;" required />  
                 </div>   
                 <div class="mb-3">  
-                    <select class="form-select" name="payment_method" id="payment_method" style="max-width: 580px;" required>  
-                        <option selected disabled>Chọn Phương Thức Thanh Toán</option>  
-                        <option value="1">Thanh toán khi nhận hàng</option>  
-                        <option value="2">Thanh toán online</option>  
-                    </select>  
+                <select class="form-select" name="payment_method" id="payment_method" style="max-width: 580px;" required>
+                    <option selected disabled>Chọn Phương Thức Thanh Toán</option>
+                    <option value="1">Thanh toán khi nhận hàng</option>
+                    <option value="2">Thanh toán online</option>
+                </select>
                 </div>     
-        </div>  
+                </div>  
 
         <!-- Thông tin sản phẩm -->  
         <div class="col-md-5">   
             <h4>Thông tin sản phẩm</h4>  
             <?php if (!empty($cartItems)) : ?>  
-                <?php foreach ($cartItems as $item) : ?>  
+                <?php foreach ($cartItems as $item) : ?> 
                     <div class="d-flex mb-3">  
-                        <img src="<?= $item['hinh_anh'] ?>" alt="<?= $item['ma_san_pham'] ?>" style="width: 100px; height: 100px; margin-right: 20px;" />  
+                        <img class="images" src="<?= $item['hinh_anh'] ?>" alt="<?= $item['ma_san_pham'] ?>" style="width: 100px; height: 100px; margin-right: 20px;" />  
                         <div>  
                             <h5><?= $item['ten_san_pham'] ?></h5>  
                             <p><?= $item['ma_san_pham'] ?></p>  
-                            <p>Số lượng: <?= $item['so_luong'] ?></p>  
+                            <p class="desc">Số lượng: <?= $item['so_luong'] ?></p>  
                             <p>Giá Bán : <?= number_format($item['gia_ban'], 0, ',', '.') ?> ₫</p>  
                             <p><strong class="text-danger">Tổng giá: <?= number_format($item['gia_ban'] * $item['so_luong'], 0, ',', '.') ?> ₫</strong></p>  
                         </div>  
-                    </div>  
+                    </div> 
                 <?php endforeach; ?>  
                 <div class="mb-3 d-flex justify-content-start align-items-center">   
                     <input type="text" id="discountCode" class="form-control" placeholder="Nhập mã giảm giá" style="max-width: 400px; margin-right: 20px;" />  

@@ -45,7 +45,7 @@ class Bill {
                     (:user_id, :fullName, :email, :phone, :address, NOW(), :total, :payment_method, :order_status, 'pending')";
         
         // Chuẩn bị câu lệnh SQL để thực thi
-        $stmt = $pdo->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
     
         // Liên kết các tham số với giá trị truyền vào
         $stmt->bindParam(':user_id', $user_id);
@@ -61,13 +61,41 @@ class Bill {
         $stmt->execute();
     
         // Trả về ID đơn hàng vừa lưu
-        return $pdo->lastInsertId();
+        return $this->conn->lastInsertId();
     }
+    // Sau khi tạo đơn hàng và lưu vào bảng "don_hangs", bạn cần thêm các sản phẩm vào bảng "chi_tiet_don_hangs"
+
+// public function saveOrderDetails($order_id, $cartItems) {
+//     foreach ($cartItems as $item) {
+//         // Kiểm tra giá trị của mỗi item
+//         if (empty($item['ma_san_pham']) || empty($item['so_luong']) || empty($item['gia_ban'])) {
+//             echo "Missing data for product ID: " . $item['ma_san_pham'];
+//             continue;  // Bỏ qua item này nếu có dữ liệu bị thiếu
+//         }
+    
+//         $sql = "INSERT INTO chi_tiet_don_hangs (order_id, product_id, so_luong, don_gia, hinh_anh)
+//                 VALUES (:order_id, :product_id, :so_luong, :gia_ban, :hinh_anh)";
+//         $stmt = $this->conn->prepare($sql);
+//         $stmt->bindParam(':order_id', $order_id);
+//         $stmt->bindParam(':product_id', $item['ma_san_pham']);
+//         $stmt->bindParam(':so_luong', $item['so_luong']);
+//         $stmt->bindParam(':gia_ban', $item['don_gia']);
+//         $stmt->bindParam(':hinh_anh', $item['hinh_anh']);
+//         $stmt->execute();
+//     }
+    
+// }
+
     public function deleteCartItems($email) {
         $sql = "DELETE FROM gio_hangs WHERE email = :email";  // Xóa sản phẩm trong giỏ hàng của người dùng
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':email', $email);
         return $stmt->execute();  // Thực thi câu lệnh SQL
+    }
+    public function clearAllCart(){
+        $sql = "DELETE FROM gio_hangs";  // Xóa tất cả sản phẩm trong
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute();  // Thực thi câu lệnh SQLs
     }
     public function getOrderDetails($order_id) {
         $sql = "SELECT ctdh.*, sp.ten_san_pham, sp.hinh_anh 
@@ -80,26 +108,6 @@ class Bill {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);  // Lấy tất cả các sản phẩm trong đơn hàng
     }
 
-// Hàm để lưu đánh giá của sản phẩm
-function saveProductReview($order_id, $product_id, $user_email, $rating, $review) {
-    global $conn; // Kết nối CSDL từ db.php
 
-    // Câu lệnh SQL để lưu đánh giá vào CSDL
-    $sql = "INSERT INTO product_reviews (ma_don_hang, ma_san_pham, id_nguoi_dung, danh_gia, nhan_xet) 
-            VALUES (:order_id, :product_id, :user_email, :rating, :review)";
-    
-    // Chuẩn bị câu lệnh SQL
-    $stmt = $conn->prepare($sql);
-    
-    // Liên kết các tham số với câu lệnh
-    $stmt->bindValue(':order_id', $order_id, PDO::PARAM_INT);
-    $stmt->bindValue(':product_id', $product_id, PDO::PARAM_INT);
-    $stmt->bindValue(':user_email', $user_email, PDO::PARAM_STR); // Lưu email người dùng thay vì ID
-    $stmt->bindValue(':rating', $rating, PDO::PARAM_INT);
-    $stmt->bindValue(':review', $review, PDO::PARAM_STR);
-
-    // Thực thi câu lệnh SQL và trả về kết quả true/false
-    return $stmt->execute(); 
-}
 
 }

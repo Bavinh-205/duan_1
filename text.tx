@@ -89,3 +89,10 @@
         </div>
     </div>
 </div>
+                        <p class="mt-2"><strong>Tên người nhận:</strong> <?php echo $orderDetails['ten_nguoi_nhan']; ?></p>
+                        <p><strong>Email:</strong> <?php echo $orderDetails['email_nguoi_nhan']; ?></p>
+                        <p><strong>Số điện thoại:</strong> <?php echo $orderDetails['sdt_nguoi_nhan']; ?></p>
+                        <p><strong>Địa chỉ:</strong> <?php echo $orderDetails['dia_chi_nguoi_nhan']; ?></p>
+                        <p><strong>Tổng tiền:</strong> <?php echo number_format($orderDetails['tong_tien'], 0, ',', '.'); ?> VND</p>
+                        <p><strong>Phương thức thanh toán:</strong> <?php echo $orderDetails['ten_phuong_thuc']; ?></p>
+                        <p><strong>Trạng Thái Thanh Toán:</strong> <?php echo $orderDetails['ten_phuong_thucs']; ?></p>

@@ -136,7 +136,13 @@ var_dump($product); // In ra thông tin sản phẩm để kiểm tra
         } else {
             echo "Sản phẩm không có trong giỏ hàng!";
         }
-    }    
+    }   
+    public function deleteCartItems($email) {
+        $sql = "DELETE FROM gio_hangs WHERE email = :email";  // Xóa sản phẩm trong giỏ hàng của người dùng
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        return $stmt->execute();  // Thực thi câu lệnh SQL
+    } 
 }
 
 

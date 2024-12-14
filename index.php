@@ -207,7 +207,10 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
                     $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
                     $address = isset($_POST['address']) ? $_POST['address'] : '';
                     $payment_method = isset($_POST['payment_method']) ? (int) $_POST['payment_method'] : 0;
-            
+                    $payment = isset($_POST['payment']) ? $_POST['payment'] : '';
+                    $payment = isset($_POST['payment_method']) ? (int)$_POST['payment_method'] : 0;     
+                    $images = isset($_POST['images']) ? $_POST['images'] : '';
+                    // $desc = isset($_POST['desc']) ? $_POST['desc'] : '';       
                     // Giả sử thanh toán thành công
                     if ($total_amount > 0) {
                         // Tạo mã đơn hàng
@@ -216,25 +219,20 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
             
                         // Khởi tạo đối tượng Order
                         $order = new Order();
+                        $cartItems = $order->getCartItems($email);
+                        $_SESSION['cart'] = $cartItems;
                         $user_id = $order->getUserIdByEmail($email);
                         
                         // Lưu đơn hàng vào bảng don_hangs
-                        if ($order->createOrder($order_id, $user_id, $name, $email, $phone, $address, $total_amount, $payment_method)) {     
+                        if ($order->createOrder($order_id, $user_id, $name, $email, $images,$desc, $phone, $address, $payment, $total_amount, $payment_method)) {     
                             // Lưu chi tiết sản phẩm vào bảng chi_tiet_don_hangs
-                            foreach ($_SESSION['cart'] as $item) {
-                                $product_id = $item['id'];
-                                $price = $item['price'];
-                                $quantity = $item['quantity'];
-                                $total_price = $price * $quantity;
-                                $order->createOrderItems($order_id, $product_id, $price, $quantity, $total_price);
-                            }
-            
                             // Xóa giỏ hàng trong cơ sở dữ liệu sau khi thanh toán
                             $bill = new Bill();
-                            $bill->deleteCartItems($email);
+                            // $bill->saveOrderDetails($order_id, $cartItems);
+                            $bill->clearAllCart();
             
                             // Xóa giỏ hàng trong session
-                            unset($_SESSION['cart']);
+                                // unset($email);
             
                             // Chuyển hướng đến trang xác nhận đơn hàng
                             $_SESSION['message'] = "Thanh toán thành công!";
@@ -267,8 +265,8 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
                                 include 'view/bill-confirm.php';
                                 exit;
                             }
-                    
-                            $orderItems = $order->getOrderItems($order_id);  // Lấy danh sách sản phẩm của đơn hàng
+                            $email = $_SESSION['user']['email'] ??null;
+                            $orderItems = $order->getAllOrder($email);  // Lấy danh sách sản phẩm của đơn hàng
                             include 'view/bill-confirm.php';
                         } else {
                             $_SESSION['error'] = "Không tìm thấy mã đơn hàng. Vui lòng thử lại.";
@@ -277,48 +275,49 @@ if((isset($_GET['act']))&&($_GET['act']!="")){
                         }
                         break;
                     
-                    case 'delete-bill':
-                        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-bill'])) {
-                            $order_id = $_POST['order_id'] ?? null;
-                    
-                            if ($order_id) {
-                                $order = new Order();
-                    
-                                if ($order->cancelOrder($order_id)) {
-                                    // Xóa dữ liệu liên quan đến đơn hàng khỏi session
-                                    unset($_SESSION['order_id']);
-                                    $_SESSION['message'] = "Đơn hàng đã bị hủy!";
+                        case 'delete-bill':
+                            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-bill'])) {
+                                $order_id = $_POST['order_id'] ?? null;
+                                
+                                if ($order_id) {
+                                    $order = new Order();
+                                    
+                                    // Cập nhật trạng thái đơn hàng thành "Đã hủy"
+                                    if ($order->deleteOrder($order_id)) {
+                                        $_SESSION['message'] = "Đơn hàng đã bị hủy!";
+                                    } else {
+                                        $_SESSION['error'] = "Không thể hủy đơn hàng. Vui lòng thử lại!";
+                                    }
                                 } else {
-                                    $_SESSION['error'] = "Không thể hủy đơn hàng. Vui lòng thử lại!";
+                                    $_SESSION['error'] = "Không tìm thấy mã đơn hàng để hủy.";
                                 }
-                            } else {
-                                $_SESSION['error'] = "Không tìm thấy mã đơn hàng để hủy.";
+                                
+                                // Sau khi xử lý xong, reload lại trang hiện tại để cập nhật trạng thái
+                                header('Location: index.php?act=bill-confirm');
+                                exit;
                             }
+                            break;
+                        
+                            case 'bill-detail':
+                                if (isset($_GET['order_id'])) {
+                                    $order_id = $_GET['order_id'];
+                                    $order = new Order();
+                                    $orderDetails = $order->getOrderDetails($order_id);
                     
-                            // Điều hướng lại về trang bill-confirm mà không chuyển về trang chủ
-                            header('Location: index.php?act=bill-confirm');
-                            exit;
-                        }
-                        break;
-                case 'review':
-                    if (isset($_POST['rating']) && isset($_POST['review']) && isset($_POST['order_id']) && isset($_POST['product_id']) && isset($_POST['user_email'])) {
-                        // Lấy dữ liệu từ form
-                        $order_id = $_POST['order_id'];
-                        $product_id = $_POST['product_id'];
-                        $user_email = $_POST['user_email']; // Lấy email của người dùng
-                        $rating = $_POST['rating'];
-                        $review = $_POST['review'];
-                    
-                        // Gọi hàm lưu đánh giá vào CSDL
-                        $result = saveProductReview($order_id, $product_id, $user_email, $rating, $review);
-                    
-                        // Kiểm tra kết quả lưu đánh giá
-                        if ($result) {
-                            echo "Đánh giá đã được gửi thành công!";
-                        } else {
-                            echo "Có lỗi xảy ra khi gửi đánh giá!";
-                        }
-                    }           
+                                    if ($orderDetails) {
+                                        $orderItems = $order->getOrderItems($order_id);
+                                        include 'view/bill-detail.php';  // Hiển thị chi tiết đơn hàng
+                                    } else {
+                                        $_SESSION['error'] = "Không tìm thấy đơn hàng.";
+                                        include 'view/bill-detail.php';
+                                    }
+                                } else {
+                                    $_SESSION['error'] = "Không tìm thấy mã đơn hàng. Vui lòng thử lại.";
+                                    include 'view/bill-detail.php';
+                                }
+                                break;
+                            
+                            
     }
 }else{
     require_once 'view/home.php';
