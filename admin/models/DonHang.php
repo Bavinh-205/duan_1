@@ -126,31 +126,45 @@ class DonHang
 
     // update
     public function UpdateData($id, $trang_thai_id)
-    {
-        try {
-            $currentData = $this->getDetaiData($id);
-            $currentStatus = $currentData['trang_thai_id'];
-            if ($trang_thai_id < $currentStatus) {
-                throw new Exception('Không thể chọn trạng thái nhỏ hơn trạng thái hiện tại.');
-            }
-            // Corrected SQL query
-            $sql = 'UPDATE don_hangs 
-                    SET trang_thai_id=:trang_thai_id
-                    
-                    WHERE id = :id';
+{
+    try {
+        // Lấy dữ liệu hiện tại của đơn hàng
+        $currentData = $this->getDetaiData($id);
+        $currentStatus = $currentData['trang_thai_id'];
 
-            $stmt = $this->conn->prepare($sql);
-
-            $stmt->bindParam(':id', $id);
-            $stmt->bindParam(':trang_thai_id', $trang_thai_id);
-
-            $stmt->execute();
-
-            return true;
-        } catch (PDOException $e) {
-            echo 'Lỗi: ' . $e->getMessage();
+        // Kiểm tra nếu trạng thái mới bằng với trạng thái hiện tại
+        if ($trang_thai_id == $currentStatus) {
+            throw new Exception('Trạng thái này đã được chọn. Vui lòng chọn trạng thái khác.');
         }
+
+        // Kiểm tra nếu trạng thái mới nhỏ hơn trạng thái hiện tại
+        if ($trang_thai_id < $currentStatus) {
+            throw new Exception('Không thể chọn trạng thái đã chọn trước đó.');
+        }
+
+        // Câu lệnh SQL cập nhật
+        $sql = 'UPDATE don_hangs 
+                SET trang_thai_id = :trang_thai_id
+                WHERE id = :id';
+
+        $stmt = $this->conn->prepare($sql);
+
+        // Truyền tham số vào câu lệnh SQL
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':trang_thai_id', $trang_thai_id);
+
+        // Thực thi câu lệnh
+        $stmt->execute();
+        return true;
+    } catch (Exception $e) {
+        echo 'Lỗi: ' . $e->getMessage();
+        return false;
+    } catch (PDOException $e) {
+        echo 'Lỗi cơ sở dữ liệu: ' . $e->getMessage();
+        return false;
     }
+}
+
 
     public function updateTrangThaiThanhToan($id, $trang_thai_thanh_toan)
     {

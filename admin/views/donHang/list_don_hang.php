@@ -183,7 +183,7 @@
                                                             <?php
                                                             } else if ($donhang['trang_thai_id'] == 15) {
                                                             ?>
-                                                                <span class="badge bg-success">Đã hủyhủy</span>
+                                                                <span class="badge bg-success">Đã hủy</span>
                                                             <?php
                                                             } else {
                                                             ?>
