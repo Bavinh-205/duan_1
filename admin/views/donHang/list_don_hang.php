@@ -133,11 +133,11 @@
                                                         <td> <?php
                                                                 if ($donhang['trang_thai_thanh_toan'] == 1) {
                                                                 ?>
-                                                                <span class="badge bg-success">Đã Thanh Toán</span>
+                                                                <span class="badge bg-danger">Chưa Thanh Toán</span>
                                                             <?php
                                                                 } else {
                                                             ?>
-                                                                <span class="badge bg-danger">Chưa Thanh Toán</span>
+                                                                <span class="badge bg-success">Đã Thanh Toán</span>
 
                                                             <?php
                                                                 }
@@ -147,7 +147,7 @@
                                                             <?php
                                                             if ($donhang['trang_thai_id'] == 1) {
                                                             ?>
-                                                                <span class="badge bg-success">Chưa xác nhận</span>
+                                                                <span class="badge bg-danger">Chưa xác nhận</span>
                                                             <?php
                                                             } else if ($donhang['trang_thai_id'] == 2) {
                                                             ?>
@@ -155,7 +155,7 @@
                                                             <?php
                                                             } else if ($donhang['trang_thai_id'] == 3) {
                                                             ?>
-                                                                <span class="badge bg-success">Chưa thanh toán</span>
+                                                                <span class="badge bg-danger">Chưa thanh toán</span>
                                                             <?php
                                                             } else if ($donhang['trang_thai_id'] == 4) {
                                                             ?>
@@ -180,6 +180,10 @@
                                                             } else if ($donhang['trang_thai_id'] == 9) {
                                                             ?>
                                                                 <span class="badge bg-success">Thành công</span>
+                                                            <?php
+                                                            } else if ($donhang['trang_thai_id'] == 15) {
+                                                            ?>
+                                                                <span class="badge bg-success">Đã hủyhủy</span>
                                                             <?php
                                                             } else {
                                                             ?>
