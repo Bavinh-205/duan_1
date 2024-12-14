@@ -8,11 +8,9 @@ require_once '../commons/ConnectDatabase.php'; // Hàm hỗ trợ
 // Require toàn bộ file Controllers
 require_once 'controllers/DashboardController.php';
 require_once './models/thongKe.php';
-
 // danh mục
 require_once 'controllers/DanhMucController.php';
 require_once './models/DanhMuc.php';
-
 // lien he
 // người dùng
 require_once './controllers/NguoiDungController.php';

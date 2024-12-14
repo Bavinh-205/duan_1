@@ -183,7 +183,7 @@
                                                             <?php
                                                             } else if ($donhang['trang_thai_id'] == 15) {
                                                             ?>
-                                                                <span class="badge bg-success">Đã hủyhủy</span>
+                                                                <span class="badge bg-success">Đã hủy</span>
                                                             <?php
                                                             } else {
                                                             ?>
@@ -235,7 +235,7 @@
                         <div class="col-sm-6">
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> © Shoes World
+                            </script> © NamPerfume
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
