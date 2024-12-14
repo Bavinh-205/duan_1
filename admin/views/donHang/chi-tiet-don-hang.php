@@ -226,6 +226,13 @@
                                                 <td><?= $donHang['ghi_chu'] ?></td>
                                             </tr>
                                             <tr>
+                                            <td><strong>Ảnh sản phẩm:</strong></td>
+                                            <td>
+                                                <img src="<?= $donHang['anh_san_pham'] ?>" alt="Ảnh sản phẩm" style="width: 100px; height: 100px; object-fit: cover;">
+                                            </td>
+                                        </tr>
+
+                                            <tr>
                                                 <td><strong>Thanh toán:</strong></td>
                                                 <td><?= $donHang['ten_phuong_thuc'] ?></td>
                                             </tr>
@@ -297,7 +304,7 @@
                             <div class="col-sm-6">
                                 <script>
                                     document.write(new Date().getFullYear())
-                                </script> © Shoes World
+                                </script> © NamPerfume
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-sm-end d-none d-sm-block">
