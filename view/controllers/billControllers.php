@@ -108,12 +108,27 @@ public function createOrder($order_id, $user_id, $name, $email, $images, $desc, 
         return false;
     }
 }
-public function deleteOrder($order_id){
-    $sql = "UPDATE don_hangs SET trang_thai_id = 15 WHERE ma_don_hang = :order_id AND trang_thai_id != 15";
+public function deleteOrder($order_id) {
+    // Lấy trạng thái hiện tại của đơn hàng
+    $sql = "SELECT trang_thai_id FROM don_hangs WHERE ma_don_hang = :order_id";
     $stmt = $this->conn->prepare($sql);
-    $stmt->bindValue(':order_id', $order_id, PDO::PARAM_STR);  // Dùng PDO::PARAM_STR nếu mã đơn hàng là chuỗi
-    return $stmt->execute();
+    $stmt->bindValue(':order_id', $order_id, PDO::PARAM_STR);
+    $stmt->execute();
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Kiểm tra nếu trạng thái không phải 1 hoặc 2 thì không cho phép hủy
+    if ($order && in_array($order['trang_thai_id'], [1, 2])) {
+        // Cập nhật trạng thái đơn hàng thành "Đã hủy" (id = 15)
+        $updateSql = "UPDATE don_hangs SET trang_thai_id = 15 WHERE ma_don_hang = :order_id";
+        $updateStmt = $this->conn->prepare($updateSql);
+        $updateStmt->bindValue(':order_id', $order_id, PDO::PARAM_STR);
+        return $updateStmt->execute();
+    }
+
+    // Nếu không thỏa mãn điều kiện, trả về false
+    return false;
 }
+
 public function getOrderItems($order_id) {
     $sql = "SELECT * FROM don_hangs WHERE ma_don_hang = ?";
     $stmt = $this->conn->prepare($sql);
